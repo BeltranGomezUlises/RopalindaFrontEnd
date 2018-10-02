@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button, Segment, Divider, Header, Input, Form, Container} from 'semantic-ui-react';
-import * as utils from '../utils.js';
+import * as utils from '../../utils.js';
 
 export default class Login extends React.Component{
+
   constructor(props){
     super(props);
 
@@ -21,7 +22,7 @@ export default class Login extends React.Component{
   }
 
   handleSubmit(){
-    fetch(localStorage.getItem('url') + 'access/login', {
+    fetch(localStorage.getItem('url') + 'clientes/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -37,8 +38,6 @@ export default class Login extends React.Component{
       utils.evalResponse(response, () => {
         localStorage.setItem('tokenSesion', response.meta.metaData);
         localStorage.setItem('logedUser', JSON.stringify(response.data.userName));
-        let ruta = window.location.href.split('#');
-        window.location.href = ruta[0] + '#/formatos';
       }, response.meta.message);
     })
   }
@@ -64,32 +63,53 @@ export default class Login extends React.Component{
   renderButton(){
     if (this.state.loading) {
       return(
-          <Button fluid loading primary>Iniciar Sesion</Button>
+          <Button fluid loading primary>
+            Iniciar sesión
+          </Button>
       );
     }else{
       return(
-        <Button fluid primary type='submit' onClick={()=>{this.setState({loading:true}); this.handleSubmit();}}>Iniciar Sesion</Button>
+        <Button fluid primary type='submit' onClick={()=>{
+            this.setState({loading:true});
+            this.handleSubmit();}}>
+            Iniciar sesión
+        </Button>
       );
     }
   }
 
   render(){
     return(
-      <div>
-        <Container text style={{'padding-top':'100px'}}>
-          <Segment verticalalign='middle'>
-            <Header textAlign='center' color='blue'>BonIce Admin</Header>
-            <Divider section/>
+          <div>
               {this.renderMessage()}
               <Form size='large'>
-                <Form.Input fluid icon='user' iconPosition='left' placeholder='Ingrese el usuario...' onChange={this.handleUserChange}/>
-                <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handlePassChange}/>
+                <Form.Input
+                label='Correo:'
+                fluid icon='user'
+                iconPosition='left'
+                placeholder='Ingrese el usuario'
+                onChange={this.handleUserChange}/>
+                <Form.Input
+                label='Contraseña:'
+                fluid icon='lock' iconPosition='left'
+                placeholder='Ingrese su contraseña' type='password'
+                onChange={this.handlePassChange}/>
                 {this.renderButton()}
+                <br></br>
+                <Divider horizontal>¿NUEVO EN ROPALINDA?</Divider>
+                <Button fluid secondary onClick={()=>{
+                  let ruta = window.location.href.split('#');
+                  window.location.href = ruta[0] + '#/prospectiveCustomerRegister';
+                  this.props.close();
+                }}>
+                  Crea tu cuenta
+                </Button>
+                <br></br>
+                <a href='/#/recuperar' onClick={()=>{
+                  this.props.close();
+                }}>¿Recuperar contraseña?</a>
               </Form>
-          </Segment>
-        </Container>
-      </div>
+          </div>
     )
   }
 }
-// onSubmit={this.handleSubmit}

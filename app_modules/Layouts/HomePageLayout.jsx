@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import DesktopContainer from './DesktopContainer.jsx'
 import {Button, Container, Divider, Grid, Header, Icon, Image, List,
   Menu, Responsive, Segment, Sidebar, Visibility} from 'semantic-ui-react'
 
@@ -12,7 +11,7 @@ export default class HomePageLayout extends Component{
 
   render(){
     return(
-      <DesktopContainer>
+      <div>
         <Segment style={{ padding: '8em 0em' }} vertical>
           <Grid container stackable verticalAlign='middle'>
             <Grid.Row>
@@ -21,14 +20,17 @@ export default class HomePageLayout extends Component{
                   We Help Companies and Companions
                 </Header>
                 <p style={{ fontSize: '1.33em' }}>
-                  We can give your company superpowers to do things that they never thought possible.
-                  Let us delight your customers and empower your needs... through pure data analytics.
+                  We can give your company superpowers to do things that
+                  they never thought possible.
+                  Let us delight your customers and empower your needs...
+                  through pure data analytics.
                 </p>
                 <Header as='h3' style={{ fontSize: '2em' }}>
                   We Make Bananas That Can Dance
                 </Header>
                 <p style={{ fontSize: '1.33em' }}>
-                  Yes that's right, you thought it was the stuff of dreams, but even bananas can be
+                  Yes that's right, you thought it was the stuff of dreams,
+                  but even bananas can be
                   bioengineered.
                 </p>
               </Grid.Column>
@@ -51,7 +53,9 @@ export default class HomePageLayout extends Component{
                 <Header as='h3' style={{ fontSize: '2em' }}>
                   "What a Company"
                 </Header>
-                <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+                <p style={{ fontSize: '1.33em' }}>
+                That is what they all say about us
+                </p>
               </Grid.Column>
               <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                 <Header as='h3' style={{ fontSize: '2em' }}>
@@ -126,14 +130,15 @@ export default class HomePageLayout extends Component{
                     Footer Header
                   </Header>
                   <p>
-                    Extra space for a call to action inside the footer that could help re-engage users.
+                    Extra space for a call to action inside the footer
+                    that could help re-engage users.
                   </p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>
         </Segment>
-      </DesktopContainer>
+      </div>
     )
   }
 
