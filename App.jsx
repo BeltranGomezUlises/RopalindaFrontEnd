@@ -4,10 +4,9 @@ import { Button, Container, Divider,  Dropdown,  Header,  Message,
   Segment,  Menu, Icon, Sidebar, Image } from 'semantic-ui-react';
 import Notifications, {notify} from 'react-notify-toast';
 // app_modules
-
-import HomepageHeading from './app_modules/Layouts/HomePageHeading.jsx';
 import HomePageLayout from './app_modules/Layouts/HomePageLayout.jsx';
-import Login from './app_modules/Login.jsx';
+import DesktopContainer from './app_modules/Layouts/DesktopContainer.jsx';
+import ProspectiveRegister from './app_modules/Access/ProspectiveRegister.jsx';
 import config from './config.json';
 
 const App =()=>(
@@ -21,30 +20,31 @@ class MainContainer extends React.Component{
   constructor(props) {
     super(props);
     this.state = {menuVisible: true};
+    localStorage.setItem('url', config.apiUrl );
   }
 
   renderMainContent(){
-      return(
-        <div>
-             <Route path="/home" component={HomePageLayout}/>
-             <Route path="/login" component={Login}/>
-        </div>
-      )
+      let ruta = window.location.href.split('#');
+      if (ruta[1] == '/') {
+          window.location.href = ruta[0] + '#/home';
+      }else{
+        return(
+          <DesktopContainer>
+               <Route path="/home" component={HomePageLayout}/>
+               <Route path="/prospectiveCustomerRegister" component={ProspectiveRegister}/>
+          </DesktopContainer>
+        )
+      }
   }
 
   render() {
     return(
-      <div style={mystyle}>
+      <div>
         <Notifications />
         {this.renderMainContent()}
       </div>
     )
   }
-}
-
-//estilos
-var mystyle={
-  'height' : 'inherit'
 }
 
 export default App;

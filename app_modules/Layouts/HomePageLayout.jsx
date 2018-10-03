@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import DesktopContainer from './DesktopContainer.jsx'
 import {Button, Container, Divider, Grid, Header, Icon, Image, List,
   Menu, Responsive, Segment, Sidebar, Visibility, Card} from 'semantic-ui-react'
+import Carousel from 'react-bootstrap/lib/Carousel'
 
 export default class HomePageLayout extends Component{
 
@@ -12,7 +12,44 @@ export default class HomePageLayout extends Component{
 
   render(){
     return(
-      <DesktopContainer>
+      <Container>
+          <Header
+            as='h1'
+            content='Ropalinda'
+            inverted
+            style={{
+              fontWeight: 'normal',
+              marginBottom: 0
+            }}
+          />
+          
+          <Carousel>
+              <Carousel.Item>
+                <img width={900} height={500} alt="900x500" src="../../assets/slide1.jpg" />
+                <Carousel.Caption>
+                  <h3>Trend alert</h3>
+                  <p>Nueva colección por tiempo limitado.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img width={900} height={500} alt="900x500" src="../../assets/slide2.jpg" />
+                <Carousel.Caption>
+                  <h3>Animal print</h3>
+                  <p>Estampados en tendencia.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img width={900} height={500} alt="900x500" src="../../assets/slide3.jpg" />
+                <Carousel.Caption>
+                  <h3>Auntum looks</h3>
+                  <p>La temperatura baja, pero el estilo emerge.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+            </Carousel>
+
+        
+        <div>
+      
         <Segment style={{ padding: '8em 0em' }} vertical>
           <Grid container stackable verticalAlign='middle'>
             <Grid.Row>
@@ -73,7 +110,7 @@ export default class HomePageLayout extends Component{
               </Card>
               </Grid.Column>
             </Grid.Row>
-
+            
             <Grid.Row>
             <Grid.Column width={5}>
               <Card>
@@ -132,11 +169,14 @@ export default class HomePageLayout extends Component{
               </Card>
               </Grid.Column>
             </Grid.Row>
-
             
           </Grid>
         </Segment>
+        </div>
+
          <Segment inverted vertical style={{ padding: '5em 0em' }}>
+      
+
           <Container>
             <Grid divided inverted stackable>
               <Grid.Row>
@@ -163,14 +203,16 @@ export default class HomePageLayout extends Component{
                     Footer Header
                   </Header>
                   <p>
-                    Extra space for a call to action inside the footer that could help re-engage users.
+                    Extra space for a call to action inside the footer
+                    that could help re-engage users.
                   </p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>
         </Segment>
-      </DesktopContainer>
+      
+      </Container>
     )
   }
 

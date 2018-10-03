@@ -15,6 +15,7 @@ export function evalResponse(response, callback, msg){
       }
       break;
     case 'WARNING':
+    case 'INVALID_PARAM':
       notify.show(response.meta.message, 'warning', 6000);
       break;
     case 'ERROR':
