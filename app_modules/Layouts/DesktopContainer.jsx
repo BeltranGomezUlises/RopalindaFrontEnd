@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {Modal, Button, Container, Divider, Grid, Header, Icon, Image, List,
-  Menu, Responsive, Segment, Sidebar, Visibility, Link} from 'semantic-ui-react'
+  Menu, Responsive, Segment, Sidebar, Visibility, Link, Dropdown} from 'semantic-ui-react'
 import Login from '../Access/Login.jsx'
 
 export default class DesktopContainer extends Component{
@@ -59,9 +59,43 @@ export default class DesktopContainer extends Component{
                 <Menu.Item as='a' active>
                   Home
                 </Menu.Item>
-                <Menu.Item as='a'>Work</Menu.Item>
-                <Menu.Item as='a'>Company</Menu.Item>
-                <Menu.Item as='a'>Careers</Menu.Item>
+                <Menu.Item>
+                  <Dropdown text='Hombres'>
+                    <Dropdown.Menu>
+                      <Dropdown.Header>Prendas</Dropdown.Header>
+                      <Dropdown.Item>Camisas</Dropdown.Item>
+                      <Dropdown.Item>Jeans</Dropdown.Item>
+                      <Dropdown.Item>Corbatas</Dropdown.Item>
+                      <Dropdown.Item>Abrigos</Dropdown.Item>
+                      <Dropdown.Item>Sudaderas</Dropdown.Item>
+                      <Dropdown.Item>Gorras</Dropdown.Item>
+                      <Dropdown.Item>Cinturones</Dropdown.Item>
+                      <Dropdown.Item>Bermudas</Dropdown.Item>
+                      <Dropdown.Item>Playeras</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Menu.Item>
+                <Menu.Item>
+                  <Dropdown text='Mujeres'>
+                    <Dropdown.Menu>
+                      <Dropdown.Header>Prendas</Dropdown.Header>
+                      <Dropdown.Item>Vestidos</Dropdown.Item>
+                      <Dropdown.Item>Tops</Dropdown.Item>
+                      <Dropdown.Item>Jeans</Dropdown.Item>
+                      <Dropdown.Item>Pantalones</Dropdown.Item>
+                      <Dropdown.Item>Faldas</Dropdown.Item>
+                      <Dropdown.Item>Camisas</Dropdown.Item>
+                      <Dropdown.Item>Sudaderas</Dropdown.Item>
+                      <Dropdown.Item>Blazers</Dropdown.Item>
+                      <Dropdown.Item>Shorts</Dropdown.Item>
+                      <Dropdown.Item>Joyeria</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Menu.Item>
+                <Menu.Item as='a'>Ofertas</Menu.Item>
+                <Menu.Item>
+                  
+                </Menu.Item>
                 <Menu.Item position='right'>
 
                 <Modal
