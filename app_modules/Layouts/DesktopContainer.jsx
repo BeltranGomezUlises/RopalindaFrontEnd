@@ -51,11 +51,10 @@ export default class DesktopContainer extends Component{
             >
               <Container>
                 <Menu.Item as='a' active>
-                  Home
+                  <Image src='../../assets/logo.png' />
                 </Menu.Item>
-                <Menu.Item as='a'>Work</Menu.Item>
-                <Menu.Item as='a'>Company</Menu.Item>
-                <Menu.Item as='a'>Careers</Menu.Item>
+                <Menu.Item as='a'>Mujer</Menu.Item>
+                <Menu.Item as='a'>Hombre</Menu.Item>
                 <Menu.Item position='right'>
                   <Button inverted={!fixed} onClick={()=>{
                       let ruta = window.location.href.split('#');
