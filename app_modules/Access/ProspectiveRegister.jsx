@@ -21,24 +21,28 @@ export default class ProspectiveRegister extends React.Component{
       },
       confirm: '',
       message: '',
-      loading:false
+      loading:false,
+      activing: false,
+      activingToken: null,
+      code: null
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmitActive = this.handleSubmitActive.bind(this);
+
   }
 
   handleSubmit(){
     let pass = this.state.element.pass;
     let confirm = this.state.confirm;
+    this.setState({message:''})
     if (pass !== confirm) {
       this.setState({message:'Contraseña y su confirmación deben ser iguales'})
       return;
     }
-
-    console.log(this.state)
     if (this.state.message === '') {
       this.setState({loading:true, message:''});
-      fetch(localStorage.getItem('url') + 'prospectiveCustomers', {
+      fetch(localStorage.getItem('url') + 'prospectiveCustomers/request', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -49,10 +53,38 @@ export default class ProspectiveRegister extends React.Component{
       .then((response) => {
         this.setState({loading: false});
         utils.evalResponse(response, () => {
-          console.log(response)
+          let activing = true;
+          let activingToken = response.data;
+          this.setState({
+            activing,
+            activingToken
+          });
         }, response.meta.message);
       })
     }
+  }
+
+  handleSubmitActive(){
+    let post = {
+      token: this.state.activingToken,
+      code: this.state.code
+    }
+    this.setState({loading: true});
+    fetch(localStorage.getItem('url') + 'prospectiveCustomers/activate', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(post)
+    }).then((res) => res.json())
+    .then((response) => {
+      this.setState({loading: false});
+      utils.evalResponse(response, () => {
+        let ruta = window.location.href.split('#');        
+        window.location.href = ruta[0] + '#/home';
+      }, response.meta.message);
+    })
   }
 
   renderMessage(){
@@ -81,7 +113,46 @@ export default class ProspectiveRegister extends React.Component{
     }
   }
 
-  render(){
+  renderButtonConfirmar(){
+    if (this.state.loading) {
+      return(
+          <Button loading primary>
+            Confirmar código
+          </Button>
+      );
+    }else{
+      return(
+        <Button primary type='submit'>
+            Confirmar código
+        </Button>
+      );
+    }
+  }
+
+  renderActiving(){
+    return(
+      <Container textAlign='center'>
+          <h2>Activación de cuenta</h2>
+          <p>Se le ha enviado un código de activación a
+          su correo electrónico para confirmar</p>
+          <Segment textAlign='left'>
+              <Form size='large' onSubmit={this.handleSubmitActive}>
+                <Form.Field control={Input} label='Código de confirmación:'
+                  required type='text' autoComplete='off'
+                  maxLength='10'
+                  placeholder='Ingrese el código recibido por correo electrónico'
+                  onChange={(e)=>{
+                    this.setState({code: e.target.value})
+                  }}>
+                </Form.Field>
+                {this.renderButtonConfirmar()}
+              </Form>
+          </Segment>
+      </Container>
+    )
+  }
+
+  renderRegister(){
     return(
       <Container textAlign='center'>
           <h2>Solicitud de cuenta</h2>
@@ -180,7 +251,23 @@ export default class ProspectiveRegister extends React.Component{
                 {this.renderButton()}
               </Form>
           </Segment>
-        </Container>
-    )
+      </Container>
+    );
+  }
+
+  render(){
+    if (this.state.activing) {
+        return(
+          <div>
+            {this.renderActiving()}
+          </div>
+        )
+    }else{
+      return(
+        <div>
+          {this.renderRegister()}
+        </div>
+      )
+    }
   }
 }
