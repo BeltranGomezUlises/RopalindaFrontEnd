@@ -57,8 +57,9 @@ export default class DesktopContainer extends Component{
               size='large'>
               <Container>
                 <Menu.Item as='a' active>
-                  Home
+                  <Image src='../../assets/logo.png'/>
                 </Menu.Item>
+
                 <Menu.Item>
                   <Dropdown text='Hombres'>
                     <Dropdown.Menu>
@@ -96,6 +97,7 @@ export default class DesktopContainer extends Component{
                 <Menu.Item>
                   
                 </Menu.Item>
+
                 <Menu.Item position='right'>
 
                 <Modal
