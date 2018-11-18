@@ -81,9 +81,9 @@ export default class ProspectiveRegister extends React.Component{
     .then((response) => {
       this.setState({loading: false});
       utils.evalResponse(response, () => {
-        let ruta = window.location.href.split('#');        
+        let ruta = window.location.href.split('#');
         window.location.href = ruta[0] + '#/home';
-      }, response.meta.message);
+      }, "Activación exitosa, ya puede ingresar como cliente a Ropalinda");
     })
   }
 

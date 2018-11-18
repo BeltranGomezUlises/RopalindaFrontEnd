@@ -9,12 +9,14 @@ export default class DesktopContainer extends Component{
   constructor(props){
     super(props);
     this.state = {
-      modalLoginVisible:false
+      modalLoginVisible:false,
+      activeItem: 'home'
     }
       this.hideFixedMenu = this.hideFixedMenu.bind(this);
       this.showFixedMenu = this.showFixedMenu.bind(this);
       this.closeModal = this.closeModal.bind(this);
       this.openModal = this.openModal.bind(this);
+      this.handleClick = this.handleClick.bind(this);
   }
 
   hideFixedMenu(){
@@ -23,6 +25,13 @@ export default class DesktopContainer extends Component{
 
   showFixedMenu(){
     this.setState({ fixed: true })
+  }
+
+  handleClick(e, {name}){
+    let ruta = window.location.href.split('#');
+    window.location.href = ruta[0] + '#/' + name;
+
+    this.setState({ activeItem: name })
   }
 
   closeModal(){
@@ -35,7 +44,7 @@ export default class DesktopContainer extends Component{
 
   render(){
     const { children } = this.props
-    const { fixed } = this.state
+    const { fixed, activeItem } = this.state
 
     return (
       <Responsive
@@ -53,65 +62,48 @@ export default class DesktopContainer extends Component{
               fixed={fixed ? 'top' : null}
               inverted={!fixed}
               pointing={!fixed}
-              secondary={!fixed}
-              size='large'>
+              secondary={!fixed}>
+
               <Container>
-                <Menu.Item as='a' active>
-                  <Image src='../../assets/logo.png'/>
+              <Image src='../../assets/logo.png' bordered size='small' style={{padding: '10px' }}/>
+                <Menu.Item name='home' active={activeItem==='home'} onClick={this.handleClick}>
+                  Inicio
                 </Menu.Item>
-
-                <Menu.Item>
-                  <Dropdown text='Hombres'>
-                    <Dropdown.Menu>
-                      <Dropdown.Header>Prendas</Dropdown.Header>
-                      <Dropdown.Item>Camisas</Dropdown.Item>
-                      <Dropdown.Item>Jeans</Dropdown.Item>
-                      <Dropdown.Item>Corbatas</Dropdown.Item>
-                      <Dropdown.Item>Abrigos</Dropdown.Item>
-                      <Dropdown.Item>Sudaderas</Dropdown.Item>
-                      <Dropdown.Item>Gorras</Dropdown.Item>
-                      <Dropdown.Item>Cinturones</Dropdown.Item>
-                      <Dropdown.Item>Bermudas</Dropdown.Item>
-                      <Dropdown.Item>Playeras</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Menu.Item>
-                <Menu.Item>
-                  <Dropdown text='Mujeres'>
-                    <Dropdown.Menu>
-                      <Dropdown.Header>Prendas</Dropdown.Header>
-                      <Dropdown.Item>Vestidos</Dropdown.Item>
-                      <Dropdown.Item>Tops</Dropdown.Item>
-                      <Dropdown.Item>Jeans</Dropdown.Item>
-                      <Dropdown.Item>Pantalones</Dropdown.Item>
-                      <Dropdown.Item>Faldas</Dropdown.Item>
-                      <Dropdown.Item>Camisas</Dropdown.Item>
-                      <Dropdown.Item>Sudaderas</Dropdown.Item>
-                      <Dropdown.Item>Blazers</Dropdown.Item>
-                      <Dropdown.Item>Shorts</Dropdown.Item>
-                      <Dropdown.Item>Joyeria</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Menu.Item>
-                <Menu.Item as='a'>Ofertas</Menu.Item>
-                <Menu.Item>
-                  
-                </Menu.Item>
-
+                <Dropdown item simple text='Hombre'>
+                  <Dropdown.Menu>
+                     <Dropdown.Item as={Link} to='/home'>Camisas</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Jeans</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Corbatas</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Abrigos</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Jeans</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Gorras</Dropdown.Item>
+                  </Dropdown.Menu>
+               </Dropdown>
+                <Dropdown item simple text='Mujer'>
+                  <Dropdown.Menu>
+                     <Dropdown.Item as={Link} to='/home'>Vestidos</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Tops</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Jeans</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Pantalones</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Faldas</Dropdown.Item>
+                     <Dropdown.Item as={Link} to='/home'>Camisas</Dropdown.Item>
+                  </Dropdown.Menu>
+               </Dropdown>
+               <Menu.Item name='ofertas' active={activeItem==='ofertas'} onClick={this.handleClick}>
+                 Ofertas
+               </Menu.Item>
                 <Menu.Item position='right'>
-
-                <Modal
-                  trigger={
-                    <Button inverted={!fixed} onClick={this.openModal}>Iniciar sesión</Button>
-                    }
-                  onClose={this.closeModal}
-                  open={this.state.modalLoginVisible}>
-                  <Header content='Iniciar Sesión' textAlign='center'/>
-                  <Modal.Content >
-                    <Login close={this.closeModal}/>
-                  </Modal.Content>
-                </Modal>
-
+                  <Modal
+                    trigger={
+                      <Button inverted={!fixed} onClick={this.openModal}>Iniciar sesión</Button>
+                      }
+                    onClose={this.closeModal}
+                    open={this.state.modalLoginVisible}>
+                    <Header content='Iniciar Sesión' textAlign='center'/>
+                    <Modal.Content >
+                      <Login close={this.closeModal}/>
+                    </Modal.Content>
+                  </Modal>
                 </Menu.Item>
               </Container>
             </Menu>

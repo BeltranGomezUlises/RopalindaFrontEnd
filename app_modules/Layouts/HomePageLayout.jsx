@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {Button, Container, Divider, Grid, Header, Icon, Image, List,
-  Menu, Responsive, Segment, Sidebar, Visibility, Card} from 'semantic-ui-react'
-import Carousel from 'react-bootstrap/lib/Carousel'
+  Menu, Responsive, Segment, Sidebar, Visibility} from 'semantic-ui-react'
 
 export default class HomePageLayout extends Component{
 
@@ -12,207 +11,132 @@ export default class HomePageLayout extends Component{
 
   render(){
     return(
-      <Container>
-          <Header
-            as='h1'
-            content='Ropalinda'
-            inverted
-            style={{
-              fontWeight: 'normal',
-              marginBottom: 0
-            }}
-          />
-          
-          <Carousel>
-              <Carousel.Item>
-                <img width={900} height={500} alt="900x500" src="../../assets/slide1.jpg" />
-                <Carousel.Caption>
-                  <h3>Trend alert</h3>
-                  <p>Nueva colección por tiempo limitado.</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item>
-                <img width={900} height={500} alt="900x500" src="../../assets/slide2.jpg" />
-                <Carousel.Caption>
-                  <h3>Animal print</h3>
-                  <p>Estampados en tendencia.</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item>
-                <img width={900} height={500} alt="900x500" src="../../assets/slide3.jpg" />
-                <Carousel.Caption>
-                  <h3>Auntum looks</h3>
-                  <p>La temperatura baja, pero el estilo emerge.</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-            </Carousel>
-
-        
-        <div>
-      
+      <div>
         <Segment style={{ padding: '8em 0em' }} vertical>
           <Grid container stackable verticalAlign='middle'>
             <Grid.Row>
-            <Grid.Column width={5}>
-              <Card>
-                <Image src='../../assets/1.jpg' />
-                <Card.Content>
-                  <Card.Header>Falda denim</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>REF. 1330/534-I2018 </span>
-                  </Card.Meta>
-                  <Card.Description>$ 449.00.</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    22 valoraciones esta semana
-                  </a>
-                </Card.Content>
-              </Card>
+              <Grid.Column width={8}>
+                <Header as='h3' style={{ fontSize: '2em' }}>
+                  Mejores modas del 2018
+                </Header>
+                <p style={{ fontSize: '1.33em' }}>
+                  Para nuestros clientes tenemos las mejores modas.
+                </p>
+                <Header as='h3' style={{ fontSize: '2em' }}>
+                  Diseños propios
+                </Header>
+                <p style={{ fontSize: '1.33em' }}>
+                  Tenemos nuestros propios diseñadores a cargo de marcar las tendencias
+                </p>
               </Grid.Column>
-
-              <Grid.Column width={5}>
-              <Card>
-                <Image src='../../assets/2.jpg' />
-                <Card.Content>
-                  <Card.Header>Abrigo leopardo cruzado</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>REF. 5832/120-I2018</span>
-                  </Card.Meta>
-                  <Card.Description>$ 899.00</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    22 valoraciones esta semana
-                  </a>
-                </Card.Content>
-              </Card>
-              </Grid.Column>
-
-              <Grid.Column width={5}>
-              <Card>
-                <Image src='../../assets/3.jpg' />
-                <Card.Content>
-                  <Card.Header>Cazadora pelo bucle rib</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>COD. 5758/744-I2018</span>
-                  </Card.Meta>
-                  <Card.Description>$ 899.00</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    22 valoraciones esta semana
-                  </a>
-                </Card.Content>
-              </Card>
+              <Grid.Column floated='right' width={6}>
+                <Image bordered rounded  circular size='large'
+                src='../../assets/slider.gif' />
               </Grid.Column>
             </Grid.Row>
-            
             <Grid.Row>
-            <Grid.Column width={5}>
-              <Card>
-                <Image src='../../assets/1.jpg' />
-                <Card.Content>
-                  <Card.Header>Falda denim</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>REF. 1330/534-I2018 </span>
-                  </Card.Meta>
-                  <Card.Description>$ 449.00.</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    22 valoraciones esta semana
-                  </a>
-                </Card.Content>
-              </Card>
-              </Grid.Column>
-
-              <Grid.Column width={5}>
-              <Card>
-                <Image src='../../assets/2.jpg' />
-                <Card.Content>
-                  <Card.Header>Abrigo leopardo cruzado</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>REF. 5832/120-I2018</span>
-                  </Card.Meta>
-                  <Card.Description>$ 899.00</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    22 valoraciones esta semana
-                  </a>
-                </Card.Content>
-              </Card>
-              </Grid.Column>
-
-              <Grid.Column width={5}>
-              <Card>
-                <Image src='../../assets/3.jpg' />
-                <Card.Content>
-                  <Card.Header>Cazadora pelo bucle rib</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>COD. 5758/744-I2018</span>
-                  </Card.Meta>
-                  <Card.Description>$ 899.00</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    22 valoraciones esta semana
-                  </a>
-                </Card.Content>
-              </Card>
+              <Grid.Column textAlign='center'>
+                <Button size='huge'>Revisar nuevas tendencias</Button>
               </Grid.Column>
             </Grid.Row>
-            
           </Grid>
         </Segment>
-        </div>
-
-         <Segment inverted vertical style={{ padding: '5em 0em' }}>
-      
-
+        <Segment style={{ padding: '0em' }} vertical>
+          <Grid celled='internally' columns='equal' stackable>
+            <Grid.Row textAlign='center'>
+              <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                <Header as='h3' style={{ fontSize: '2em' }}>
+                  La meyor empresa de moda
+                </Header>
+                <p style={{ fontSize: '1.33em' }}>
+                10 años de diseño y produccion nos respaldan
+                </p>
+              </Grid.Column>
+              <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                <Header as='h3' style={{ fontSize: '2em' }}>
+                  "Las personalidades famosas prefieren ropalinda"
+                </Header>
+                <p style={{ fontSize: '1.33em' }}>
+                  Equipo de diseño de Ropalinda 2014
+                </p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+        <Segment style={{ padding: '8em 0em' }} vertical>
+          <Container text>
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              Promociones para nuestros mejores clientes
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Si eres cliente de ropalinda puedes ser acreedor de un descuento en tu primera compra
+            </p>
+            <Button as='a' size='large'>
+              Ver
+            </Button>
+            <Divider
+              as='h4'
+              className='header'
+              horizontal
+              style={{ margin: '3em 0em', textTransform: 'uppercase' }}
+            >
+              Más
+            </Divider>
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              Novedades
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Todo el año contamos con nuevas prendas, visitalas
+            </p>
+            <Button as='a' size='large'>
+              Ver
+            </Button>
+          </Container>
+        </Segment>
+        <Segment inverted vertical style={{ padding: '5em 0em' }}>
           <Container>
             <Grid divided inverted stackable>
               <Grid.Row>
                 <Grid.Column width={3}>
-                  <Header inverted as='h4' content='About' />
+                  <Header inverted as='h4' content='Acerca de' />
                   <List link inverted>
-                    <List.Item as='a'>Sitemap</List.Item>
-                    <List.Item as='a'>Contact Us</List.Item>
-                    <List.Item as='a'>Religious Ceremonies</List.Item>
-                    <List.Item as='a'>Gazebo Plans</List.Item>
+                    <List.Item as='a'>Contactanos</List.Item>
+                    <List.Item as='a'>Eventos</List.Item>
                   </List>
                 </Grid.Column>
                 <Grid.Column width={3}>
-                  <Header inverted as='h4' content='Services' />
+                  <Header inverted as='h4' content='Servicios' />
                   <List link inverted>
-                    <List.Item as='a'>Banana Pre-Order</List.Item>
-                    <List.Item as='a'>DNA FAQ</List.Item>
-                    <List.Item as='a'>How To Access</List.Item>
-                    <List.Item as='a'>Favorite X-Men</List.Item>
+                    <List.Item as='a'>Pre-order</List.Item>
+                    <List.Item as='a'>Ventas</List.Item>
+                    <List.Item as='a'>Distribución</List.Item>
                   </List>
                 </Grid.Column>
                 <Grid.Column width={7}>
                   <Header as='h4' inverted>
-                    Footer Header
+                    Tarea Ingenieria web
                   </Header>
                   <p>
-                    Extra space for a call to action inside the footer
-                    that could help re-engage users.
+                   Ulises Beltrán
+                  </p>
+                  <p>
+                   Ricardo Morales
+                  </p>
+                  <p>
+                   Edith Castro
+                  </p>
+                  <p>
+                   Carolina Martinez
+                  </p>
+                  <p>
+                   Antonio Valle
                   </p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>
         </Segment>
-      
-      </Container>
+      </div>
     )
   }
 
