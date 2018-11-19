@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Button, Segment, Divider, Header, Input, Form, Container}
+import { Button, Segment, Input, Form, Container}
   from 'semantic-ui-react';
 import * as utils from '../../utils.js';
 

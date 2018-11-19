@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import {Modal, Button, Container, Divider, Grid, Header, Icon, Image, List,
-  Menu, Responsive, Segment, Sidebar, Visibility, Link, Dropdown} from 'semantic-ui-react'
+import {Modal, Button, Container, Header, Image,
+  Menu, Responsive, Segment, Visibility, Link, Dropdown} from 'semantic-ui-react'
 import Login from '../Access/Login.jsx'
 
 export default class DesktopContainer extends Component{

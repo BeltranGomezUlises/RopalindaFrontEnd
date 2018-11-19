@@ -60,22 +60,3 @@ export function onlyLetter(value){
   }
   return true;
 }
-
-/*
-* convierte un objeto date en fecha legible en zona horaria local
-*/
-export function toLocalDate(date){
-  var dateString = date.toLocaleDateString();
-  var parts = dateString.split('/');
-  return parts[1] + '/' + parts[0] + '/' + parts[2];
-}
-
-/*
-* convierte un objecto date en fecha y hora legible en zona horaria local
-*/
-export function toLocalDateTime(date){
-  var dateString = date.toLocaleDateString();
-  var timeString = date.toLocaleTimeString();
-  var parts = dateString.split('/');
-  return parts[1] + '/' + parts[0] + '/' + parts[2] + ' ' + timeString;
-}

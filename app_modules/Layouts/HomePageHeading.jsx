@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import {Button, Container, Divider, Grid, Header, Icon, Image, List,
-  Menu, Responsive, Segment, Sidebar, Visibility, Card} from 'semantic-ui-react'
+import {Container, Header } from 'semantic-ui-react'
 import Carousel from 'react-bootstrap/lib/Carousel'
   export default class HomePageHeading extends Component{
 
