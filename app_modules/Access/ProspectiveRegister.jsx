@@ -198,6 +198,7 @@ export default class ProspectiveRegister extends React.Component {
                 type='number'
                 step='1'
                 max='9999999999'
+                maxLength='10'
                 placeholder='Ingrese su número telefónico a 10 digitos'
                 value={this.state.element.phone}
                 onChange={(e) => {
@@ -245,7 +246,7 @@ export default class ProspectiveRegister extends React.Component {
               >
               </Form.Field>
             </Form.Group>
-                <Form.Field control={Input} label='Contraseña:'
+            <Form.Field control={Input} label='Contraseña:'
               required type='password' autoComplete='off'
               placeholder='Ingrese su contraseña'
               onChange={(e) => {

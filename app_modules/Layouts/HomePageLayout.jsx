@@ -29,7 +29,7 @@ export default class HomePageLayout extends Component{
               </Grid.Column>
               <Grid.Column floated='right' width={6}>
                 <Image bordered rounded  circular size='large'
-                src='../../assets/slider.gif' />
+                src='assets/slider.gif' />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
