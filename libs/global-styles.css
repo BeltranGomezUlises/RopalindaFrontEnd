@@ -1,0 +1,7 @@
+.ui.menu .item:before {
+  display: none !important;
+}
+
+.ui.menu {
+  box-shadow: none !important;
+}
