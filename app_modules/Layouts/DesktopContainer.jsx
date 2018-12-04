@@ -96,7 +96,6 @@ export default class DesktopContainer extends Component {
           style={{ "max-height": "70px", "min-height": "70px" }}>
           <Container>
             <Image src='assets/logo.png' bordered size='small' style={{ padding: '10px' }} />
-            <Menu>
               <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleClick}>
                 Inicio
                 </Menu.Item>
@@ -117,7 +116,6 @@ export default class DesktopContainer extends Component {
                     </Modal.Content>
                   </Modal>
                 </Menu.Item>
-            </Menu>
           </Container>
         </Menu>
         <div style={{ "max-height": "70px", "min-height": "70px" }}></div>
