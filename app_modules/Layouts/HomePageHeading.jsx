@@ -126,9 +126,6 @@ export default class HomePageHeading extends Component {
           <OptionsSection>
             <Menu style={{ border: 'none' }}>
               {this.renderCategoryList()}
-              <Menu.Item name='ofertas' active={activeItem === 'ofertas'} onClick={this.handleClick}>
-                Ofertas
-              </Menu.Item>
             </Menu>
           </OptionsSection>
           <Modal
