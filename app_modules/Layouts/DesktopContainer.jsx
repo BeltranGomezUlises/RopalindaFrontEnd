@@ -8,7 +8,6 @@ import * as utils from '../../utils.js'
 
 const rutaCategorias = 'http://74.208.178.83:8080/Ropalinda/api/categories';
 const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.kJdFAfN1eP6-4vEjv0lTRVsmj4L3RAJ60nl3vJFAfoLAK5tSkf-Qh-B8lyerGnA9oFnQIlVrEXj9xrYV6RKzLQ';
-const iconRoute = localStorage.getItem('url') + 'utilities/getFile/'
 export default class DesktopContainer extends Component {
 
   constructor(props) {
@@ -31,8 +30,7 @@ export default class DesktopContainer extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Authorization': token //localStorage.getItem('tokenSesion')
+        'Access-Control-Allow-Origin': '*'
       }
     }).then((res) => res.json())
       .then((r) => {
@@ -75,7 +73,7 @@ export default class DesktopContainer extends Component {
           simple 
           text={i.name} 
           icon={
-              <img src={this.iconRoute + i.icon}
+              <img src={ localStorage.getItem('url') + 'utilities/getFile/' + i.icon}
               width='24px'/>}>
           <Dropdown.Menu>
             {this.renderSubCategoryList(i.subcategoryCollection)}
@@ -88,8 +86,8 @@ export default class DesktopContainer extends Component {
   renderSubCategoryList(subCategories) {
     return subCategories.map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={sub.name} as={Link} onClick={this.handleClick}>
-        <img src={this.iconRoute + sub.icon}/>
+        <Dropdown.Item key={sub.id} name={'prendas/'+categoryName+'/'+sub.name} as={Link} onClick={this.handleClick}>
+        <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon}/>
         {sub.name}
         </Dropdown.Item>
       )

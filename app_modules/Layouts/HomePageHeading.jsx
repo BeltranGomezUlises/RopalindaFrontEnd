@@ -46,7 +46,7 @@ export default class HomePageHeading extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': token //localStorage.getItem('tokenSesion')
+        'Authorization': token
       }
     }).then((res) => res.json())
       .then((r) => {
@@ -82,19 +82,31 @@ export default class HomePageHeading extends Component {
   renderCategoryList() {
     return this.state.categories.map(i => {
       return (
-        <Dropdown style={{ marginRight: '24px' }} key={i.id} name={i.name} item simple text={i.name}>
+        <Dropdown 
+          style={{ marginRight: '24px' }} 
+          key={i.id} 
+          name={'prendas/'+i.name} 
+          item 
+          simple 
+          text={i.name}
+          icon={
+            <img src={ localStorage.getItem('url') + 'utilities/getFile/' + i.icon}/>
+            }>
           <Dropdown.Menu>
-            {this.renderSubCategoryList(i.subcategoryCollection)}
+            {this.renderSubCategoryList(i.subcategoryCollection,i.name)}
           </Dropdown.Menu>
         </Dropdown>
       )
     })
   }
 
-  renderSubCategoryList(subCategories) {
+  renderSubCategoryList(subCategories, categoryName) {
     return subCategories.map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={sub.name} as={Link} onClick={this.handleClick}>{sub.name}</Dropdown.Item>
+        <Dropdown.Item key={sub.id} name={'prendas/'+categoryName+'/'+sub.name} as={Link} onClick={this.handleClick}>
+          <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon}/>
+          {sub.name}
+        </Dropdown.Item>
       )
     }
     )
@@ -108,7 +120,14 @@ export default class HomePageHeading extends Component {
       <MainContainer>
         <HeadingContainer>
           <LogoSection>
-            <Image src='assets/logo.png' size='small' style={{ height: '42px', objectFit: 'contain', cursor: 'pointer' }} />
+            <div onClick={() => {
+              let ruta = window.location.href.split('#');
+              window.location.href = ruta[0] + '#/' + 'home';
+              this.setState({ activeItem: 'home' })
+            }}>
+              <Image src='assets/logo.png' size='small' style={{ height: '42px', objectFit: 'contain', cursor: 'pointer' }} />
+            </div>
+            
             <Icon
               name='user outline'
               size='large'
