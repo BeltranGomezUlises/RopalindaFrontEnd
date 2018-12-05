@@ -9,6 +9,9 @@ import {
   MainImageContainer,
   MainImage,
   CardsContainer,
+  ImageContainer,
+  TitleH1,
+  Description,
 } from '../../styledcomponents/home';
 import * as utils from '../../utils.js';
 import numeral from 'numeral';
@@ -47,7 +50,6 @@ export default class HomePageLayout extends Component{
       garments,
     } = this.state;
 
-    console.log('garments', garments);
     return(
       <div style={{ marginTop: '110px' }}>
         <MainImageContainer>
@@ -63,11 +65,74 @@ export default class HomePageLayout extends Component{
             </Carousel.Item>
           </Carousel>
         </MainImageContainer>
+        <TitleH1>New arrivals</TitleH1>
+        <Description>
+          ¡Disfruta de los nuevos productos que tenemos para ti!. Personaliza tu prenda y luce un estilo único.
+        </Description>
         <CardsContainer>
           {
             garments.map((garment) => (
-              <Card style={{ marginTop: '0' }} key={garment.id}>
-                <Image src={'https://imgs.veryvoga.com/veryvoga/o600/b0/89/921908820e48f4d650922af87f46b089.jpg'/*garment.image*/} />
+              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
+                <ImageContainer>
+                  <Image
+                    className="image-card"
+                    style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
+                    src={`http://74.208.178.83:8080/Ropalinda/api/utilities/getFile/${garment.image}`} />
+                </ImageContainer>
+                <Card.Content>
+                  <Card.Header>{garment.name}</Card.Header>
+                  <Card.Meta>
+                    <span className='date'>{garment.subcategory.name}</span>
+                  </Card.Meta>
+                  <Card.Description>
+                    {garment.description}
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <a>
+                    <Icon name='dollar' />
+                    {numeral(garment.price).format('0,0.00')}
+                  </a>
+                </Card.Content>
+              </Card>
+            ))
+          }
+          {
+            garments.map((garment) => (
+              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
+                <ImageContainer>
+                  <Image
+                    className="image-card"
+                    style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
+                    src={`http://74.208.178.83:8080/Ropalinda/api/utilities/getFile/${garment.image}`} />
+                </ImageContainer>
+                <Card.Content>
+                  <Card.Header>{garment.name}</Card.Header>
+                  <Card.Meta>
+                    <span className='date'>{garment.subcategory.name}</span>
+                  </Card.Meta>
+                  <Card.Description>
+                    {garment.description}
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <a>
+                    <Icon name='dollar' />
+                    {numeral(garment.price).format('0,0.00')}
+                  </a>
+                </Card.Content>
+              </Card>
+            ))
+          }
+          {
+            garments.map((garment) => (
+              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
+                <ImageContainer>
+                  <Image
+                    className="image-card"
+                    style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
+                    src={`http://74.208.178.83:8080/Ropalinda/api/utilities/getFile/${garment.image}`} />
+                </ImageContainer>
                 <Card.Content>
                   <Card.Header>{garment.name}</Card.Header>
                   <Card.Meta>

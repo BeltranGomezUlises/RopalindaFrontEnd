@@ -9,6 +9,13 @@ import {
   LogoSection,
   OptionsSection,
   MainContainer,
+  FooterPreInfo,
+  FooterLinksSection,
+  Footer,
+  LinkSection,
+  LinkFooter,
+  LinkF,
+  LocationInfo,
 } from '../../styledcomponents/home';
 import Login from '../Access/Login.jsx'
 import * as utils from '../../utils.js'
@@ -126,7 +133,10 @@ export default class HomePageHeading extends Component {
           </OptionsSection>
           <Modal
             onClose={this.closeModal}
-            open={this.state.modalLoginVisible}>
+            open={this.state.modalLoginVisible}
+            size="tiny"
+            closeIcon
+          >
             <Header content='Iniciar Sesión' textAlign='center' />
             <Modal.Content >
               <Login close={this.closeModal} />
@@ -134,6 +144,46 @@ export default class HomePageHeading extends Component {
           </Modal>
         </HeadingContainer>
         {children}
+        <FooterPreInfo>
+          <LocationInfo
+            href="https://www.google.com/maps/place/Forum+Culiac%C3%A1n/@24.8142844,-107.4028839,17z/data=!3m1!4b1!4m5!3m4!1s0x86bcd0a76213076f:0xa0f9556f4de4be4!8m2!3d24.8142795!4d-107.4006952"
+            target="_blank"
+          >
+            <Image src='assets/marker.svg' size='small' style={{ width: '16px', marginRight: '16px' }} />
+            <b>¡Ubica tu tienda!</b>
+          </LocationInfo>
+        </FooterPreInfo>
+        <FooterLinksSection>
+          <LinkSection>
+            <LinkFooter><LinkF>Contacto</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Tiendas</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Trabaja con nosotros</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Ticket electrónico</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Online specialist</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Affinity Card</LinkF></LinkFooter>
+          </LinkSection>
+          <LinkSection>
+            <LinkFooter><LinkF>Empresa</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Newsletter</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Press room</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Aviso legal</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Cookies</LinkF></LinkFooter>
+          </LinkSection>
+          <LinkSection>
+            <LinkFooter><b style={{ color: 'black' }}>Descarga la app</b></LinkFooter>
+            <LinkFooter><LinkF>Paga con tu móvil</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Guarda tus tickets en la app</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Ven a la tienda con tu wishlist</LinkF></LinkFooter>
+            <LinkFooter><LinkF>Escanea la ropa para saber más</LinkF></LinkFooter>
+            <div>
+              <Image src='assets/google-play.png' size='small' style={{ cursor: 'pointer' }} />
+            </div>
+          </LinkSection>
+        </FooterLinksSection>
+        <Footer>
+          <Image src='assets/logo.png' size='small' style={{ height: '42px', objectFit: 'contain', cursor: 'pointer', marginBottom: '24px' }} />
+          <div>© 2018</div>
+        </Footer>
       </MainContainer>
     );
   }

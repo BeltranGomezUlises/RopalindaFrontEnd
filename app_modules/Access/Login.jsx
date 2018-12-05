@@ -90,9 +90,11 @@ export default class Login extends React.Component {
             Crea tu cuenta
           </Button>
           <br></br>
-          <a href='/#/recuperar' onClick={() => {
-            this.props.close();
-          }}>¿Recuperar contraseña?</a>
+          <div style={{ textAlign: 'center' }}>
+            <a href='/#/recuperar' onClick={() => {
+              this.props.close();
+            }}>¿Recuperar contraseña?</a>
+          </div>
         </Form>
       </div>
     )

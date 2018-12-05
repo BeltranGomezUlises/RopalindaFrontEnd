@@ -5,3 +5,7 @@
 .ui.menu {
   box-shadow: none !important;
 }
+
+.image-card:hover {
+  transform: scale(1.2);
+}
