@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import {
   Modal, Button, Container, Header, Image,
-  Menu, Responsive, Segment, Visibility, Link, Dropdown
+  Menu, Icon, Link, Dropdown
 } from 'semantic-ui-react'
 import Login from '../Access/Login.jsx'
 import * as utils from '../../utils.js'
 
 const rutaCategorias = 'http://74.208.178.83:8080/Ropalinda/api/categories';
 const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.kJdFAfN1eP6-4vEjv0lTRVsmj4L3RAJ60nl3vJFAfoLAK5tSkf-Qh-B8lyerGnA9oFnQIlVrEXj9xrYV6RKzLQ';
+const iconRoute = localStorage.getItem('url') + 'utilities/getFile/'
 export default class DesktopContainer extends Component {
 
   constructor(props) {
@@ -67,7 +68,15 @@ export default class DesktopContainer extends Component {
   renderCategoryList() {
     return this.state.categories.map(i => {
       return (
-        <Dropdown key={i.id} name={i.name} item simple text={i.name}>
+        <Dropdown 
+          key={i.id} 
+          name={i.name} 
+          item 
+          simple 
+          text={i.name} 
+          icon={
+              <img src={this.iconRoute + i.icon}
+              width='24px'/>}>
           <Dropdown.Menu>
             {this.renderSubCategoryList(i.subcategoryCollection)}
           </Dropdown.Menu>
@@ -79,7 +88,10 @@ export default class DesktopContainer extends Component {
   renderSubCategoryList(subCategories) {
     return subCategories.map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={sub.name} as={Link} onClick={this.handleClick}>{sub.name}</Dropdown.Item>
+        <Dropdown.Item key={sub.id} name={sub.name} as={Link} onClick={this.handleClick}>
+        <img src={this.iconRoute + sub.icon}/>
+        {sub.name}
+        </Dropdown.Item>
       )
     }
     )
@@ -96,14 +108,11 @@ export default class DesktopContainer extends Component {
           style={{ "max-height": "70px", "min-height": "70px" }}>
           <Container>
             <Image src='assets/logo.png' bordered size='small' style={{ padding: '10px' }} />
-            <Menu>
               <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleClick}>
+                <Icon name='home'/>
                 Inicio
                 </Menu.Item>
               {this.renderCategoryList()}
-              <Menu.Item name='ofertas' active={activeItem === 'ofertas'} onClick={this.handleClick}>
-                Ofertas
-               </Menu.Item>
                 <Menu.Item position='right'>
                   <Modal
                     trigger={
@@ -117,7 +126,6 @@ export default class DesktopContainer extends Component {
                     </Modal.Content>
                   </Modal>
                 </Menu.Item>
-            </Menu>
           </Container>
         </Menu>
         <div style={{ "max-height": "70px", "min-height": "70px" }}></div>
