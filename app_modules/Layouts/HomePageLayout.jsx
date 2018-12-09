@@ -51,7 +51,7 @@ export default class HomePageLayout extends Component {
     } = this.state;
 
     return (
-      <div style={{ marginTop: '110px' }}>
+      <div>
         <MainImageContainer>
           <Carousel>
             <Carousel.Item>

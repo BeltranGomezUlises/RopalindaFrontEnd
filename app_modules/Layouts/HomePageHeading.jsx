@@ -99,7 +99,7 @@ export default class HomePageHeading extends Component {
   }
 
   renderSubCategoryList(subCategories, categoryName) {
-    return subCategories.map(sub => {
+    return subCategories.filter(sub => sub.active).map(sub => {
       return (
         <Dropdown.Item key={sub.id} name={'prendas/'+categoryName+'/'+sub.name} as={Link} onClick={this.handleClick}>
           <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon}/>
@@ -156,7 +156,10 @@ export default class HomePageHeading extends Component {
             </Modal.Content>
           </Modal>
         </HeadingContainer>
-
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
         {children}
 
         <FooterPreInfo>
