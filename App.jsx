@@ -3,7 +3,6 @@ import { Route, HashRouter } from 'react-router-dom';
 import Notifications, {notify} from 'react-notify-toast';
 // app_modules
 import HomePageLayout from './app_modules/Layouts/HomePageLayout.jsx';
-import DesktopContainer from './app_modules/Layouts/DesktopContainer.jsx';
 import HomePageHeading from './app_modules/Layouts/HomePageHeading.jsx';
 import ProspectiveRegister from './app_modules/Access/ProspectiveRegister.jsx';
 import config from './config.json';

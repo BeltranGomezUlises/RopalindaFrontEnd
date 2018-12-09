@@ -20,8 +20,6 @@ import {
 import Login from '../Access/Login.jsx'
 import * as utils from '../../utils.js'
 
-const rutaCategorias = 'http://74.208.178.83:8080/Ropalinda/api/categories';
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.kJdFAfN1eP6-4vEjv0lTRVsmj4L3RAJ60nl3vJFAfoLAK5tSkf-Qh-B8lyerGnA9oFnQIlVrEXj9xrYV6RKzLQ';;
 
 export default class HomePageHeading extends Component {
   constructor(props){
@@ -40,13 +38,13 @@ export default class HomePageHeading extends Component {
   }
 
   componentWillMount() {
-    fetch(rutaCategorias, {
+    fetch(localStorage.getItem('url') + 'categories', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': token
+        'Authorization':''
       }
     }).then((res) => res.json())
       .then((r) => {
@@ -112,8 +110,7 @@ export default class HomePageHeading extends Component {
     )
   }
 
-  render(){
-    const { fixed, activeItem } = this.state;
+  render(){    
     const { children } = this.props
 
     return(
@@ -159,7 +156,9 @@ export default class HomePageHeading extends Component {
             </Modal.Content>
           </Modal>
         </HeadingContainer>
+
         {children}
+
         <FooterPreInfo>
           <LocationInfo
             href="https://www.google.com/maps/place/Forum+Culiac%C3%A1n/@24.8142844,-107.4028839,17z/data=!3m1!4b1!4m5!3m4!1s0x86bcd0a76213076f:0xa0f9556f4de4be4!8m2!3d24.8142795!4d-107.4006952"

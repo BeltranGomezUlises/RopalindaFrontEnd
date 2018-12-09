@@ -16,12 +16,9 @@ import {
 import * as utils from '../../utils.js';
 import numeral from 'numeral';
 
-const rutaPrendas = 'http://74.208.178.83:8080/Ropalinda/api/garments';
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.kJdFAfN1eP6-4vEjv0lTRVsmj4L3RAJ60nl3vJFAfoLAK5tSkf-Qh-B8lyerGnA9oFnQIlVrEXj9xrYV6RKzLQ';
+export default class HomePageLayout extends Component {
 
-export default class HomePageLayout extends Component{
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       garments: [],
@@ -29,15 +26,18 @@ export default class HomePageLayout extends Component{
   }
 
   componentWillMount() {
-    fetch(rutaPrendas, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Authorization': token //localStorage.getItem('tokenSesion')
-      }
-    }).then((res) => res.json())
+    fetch(localStorage.getItem('url') + 'garments'
+      + '?select=id,name,description,previewImage,price,subcategory.name,active=true'
+      + '&from=0'
+      + '&to=8'
+      + '&orderBy=id|desc', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
+      }).then((res) => res.json())
       .then((r) => {
         utils.evalResponse(r, () => {
           this.setState({ garments: r.data })
@@ -45,12 +45,12 @@ export default class HomePageLayout extends Component{
       });
   }
 
-  render(){
+  render() {
     const {
       garments,
     } = this.state;
 
-    return(
+    return (
       <div style={{ marginTop: '110px' }}>
         <MainImageContainer>
           <Carousel>
@@ -77,66 +77,12 @@ export default class HomePageLayout extends Component{
                   <Image
                     className="image-card"
                     style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
-                    src={`http://74.208.178.83:8080/Ropalinda/api/utilities/getFile/${garment.image}`} />
+                    src={localStorage.getItem('url') + 'utilities/getFile/' + garment.previewImage} />
                 </ImageContainer>
                 <Card.Content>
                   <Card.Header>{garment.name}</Card.Header>
                   <Card.Meta>
-                    <span className='date'>{garment.subcategory.name}</span>
-                  </Card.Meta>
-                  <Card.Description>
-                    {garment.description}
-                  </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='dollar' />
-                    {numeral(garment.price).format('0,0.00')}
-                  </a>
-                </Card.Content>
-              </Card>
-            ))
-          }
-          {
-            garments.map((garment) => (
-              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
-                <ImageContainer>
-                  <Image
-                    className="image-card"
-                    style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
-                    src={`http://74.208.178.83:8080/Ropalinda/api/utilities/getFile/${garment.image}`} />
-                </ImageContainer>
-                <Card.Content>
-                  <Card.Header>{garment.name}</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>{garment.subcategory.name}</span>
-                  </Card.Meta>
-                  <Card.Description>
-                    {garment.description}
-                  </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='dollar' />
-                    {numeral(garment.price).format('0,0.00')}
-                  </a>
-                </Card.Content>
-              </Card>
-            ))
-          }
-          {
-            garments.map((garment) => (
-              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
-                <ImageContainer>
-                  <Image
-                    className="image-card"
-                    style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
-                    src={`http://74.208.178.83:8080/Ropalinda/api/utilities/getFile/${garment.image}`} />
-                </ImageContainer>
-                <Card.Content>
-                  <Card.Header>{garment.name}</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>{garment.subcategory.name}</span>
+                    <span className='date'>{garment.subcategory_name}</span>
                   </Card.Meta>
                   <Card.Description>
                     {garment.description}
