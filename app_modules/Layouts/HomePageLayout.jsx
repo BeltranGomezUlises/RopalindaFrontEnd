@@ -16,7 +16,6 @@ import {
 import * as utils from '../../utils.js';
 import numeral from 'numeral';
 
-const rutaPrendas = 'http://74.208.178.83:8080/Ropalinda/api/garments';
 const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.kJdFAfN1eP6-4vEjv0lTRVsmj4L3RAJ60nl3vJFAfoLAK5tSkf-Qh-B8lyerGnA9oFnQIlVrEXj9xrYV6RKzLQ';
 
 export default class HomePageLayout extends Component{
@@ -29,7 +28,7 @@ export default class HomePageLayout extends Component{
   }
 
   componentWillMount() {
-    fetch(rutaPrendas, {
+    fetch('http://74.208.178.83:8080/Ropalinda/api/garments', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -43,6 +42,10 @@ export default class HomePageLayout extends Component{
           this.setState({ garments: r.data })
         })
       });
+  }
+
+  showGarmentDetail(id){
+    
   }
 
   render(){
@@ -72,7 +75,7 @@ export default class HomePageLayout extends Component{
         <CardsContainer>
           {
             garments.map((garment) => (
-              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
+              <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id} onClick={this.showGarmentDetail(garment.id)}>
                 <ImageContainer>
                   <Image
                     className="image-card"
