@@ -100,7 +100,7 @@ export default class CompatibleGarments extends React.Component {
                 )
             } else {
                 return (
-                    <Card.Group>
+                    <Card.Group style={{ justifyContent: 'center'}}>
                         {this.renderCollection()}
                     </Card.Group>
                 )

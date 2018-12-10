@@ -46,6 +46,13 @@ export default class GarmentDetail extends Component {
         }).then((res) => res.json())
             .then((r) => {
                 utils.evalResponse(r, () => {
+                    r.data.imagesList.push(
+                        {
+                            imagesPK: {
+                                imagePath: r.data.previewImage
+                            },
+                            active: true
+                        });
                     this.setState(
                         {
                             garment: r.data,
