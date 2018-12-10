@@ -91,17 +91,17 @@ export default class HomePageHeading extends Component {
             <img src={ localStorage.getItem('url') + 'utilities/getFile/' + i.icon}/>
             }>
           <Dropdown.Menu>
-            {this.renderSubCategoryList(i.subcategoryCollection,i.name)}
+            {this.renderSubCategoryList(i.subcategoryCollection)}
           </Dropdown.Menu>
         </Dropdown>
       )
     })
   }
 
-  renderSubCategoryList(subCategories, categoryName) {
-    return subCategories.map(sub => {
+  renderSubCategoryList(subCategories) {
+    return subCategories.filter(sub => sub.active).map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={'prendas/'+categoryName+'/'+sub.name} as={Link} onClick={this.handleClick}>
+        <Dropdown.Item key={sub.id} name={'garmentCatalog/'+sub.id} as={Link} onClick={this.handleClick}>
           <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon}/>
           {sub.name}
         </Dropdown.Item>
@@ -131,13 +131,13 @@ export default class HomePageHeading extends Component {
               style={{ position: 'absolute', right: '32px', cursor: 'pointer', color: '#2224267a' }}
               onClick={this.openModal}
             />
-            <Input style={{ border: 'none', borderBottom: '1px solid rgba(34,36,38,.15)', borderRadius: 'none', position: 'absolute', right: '80px' }}
-              icon
+
+            <Input type='text' 
+              style={{ position: 'absolute', right: '80px' }}
+              icon='search'
               placeholder='Buscar...'
-            >
-              <input style={{ border: 'none' }} />
-              <Icon name='search' />
-            </Input>
+            />              
+              
           </LogoSection>
           <OptionsSection>
             <Menu style={{ border: 'none' }}>
@@ -156,9 +156,21 @@ export default class HomePageHeading extends Component {
             </Modal.Content>
           </Modal>
         </HeadingContainer>
+<<<<<<< HEAD
         <div style={{marginTop: 111}}>
           {children}
         </div>
+=======
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        {children}
+
+>>>>>>> 0dbb9182acffdba945d4684ed61f1693205fd4b8
         <FooterPreInfo>
           <LocationInfo
             href="https://www.google.com/maps/place/Forum+Culiac%C3%A1n/@24.8142844,-107.4028839,17z/data=!3m1!4b1!4m5!3m4!1s0x86bcd0a76213076f:0xa0f9556f4de4be4!8m2!3d24.8142795!4d-107.4006952"

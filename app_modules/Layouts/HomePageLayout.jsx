@@ -49,10 +49,10 @@ export default class HomePageLayout extends Component {
   render(){
     const {
       garments,
-    } = this.state;
+    } = this.state;    
 
     return (
-      <div style={{ marginTop: '110px' }}>
+      <div>
         <MainImageContainer>
           <Carousel>
             <Carousel.Item>
@@ -107,6 +107,7 @@ export default class HomePageLayout extends Component {
             ))
           }
         </CardsContainer>
+        {this.props.match.params.name}
       </div>
     )
   }
