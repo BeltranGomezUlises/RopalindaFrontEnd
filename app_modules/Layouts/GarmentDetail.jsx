@@ -47,16 +47,32 @@ export default class GarmentDetail extends Component {
                 })
             });
     }
-
     renderCompatibleGarments() {
         return this.state.garment.compatibleGarmentList.map(i => {
             return (
-                <Card>
-                    <Image
-                        size='tiny'
-                        label={{ as: 'a', corner: 'right', icon: 'check circle' }}
-                        src={localStorage.getItem('url') + 'utilities/getFile/' + i.image}
-                    />
+                <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
+                    <ImageContainer>
+                        <Image
+                            className="image-card"
+                            label={{ as: 'a', corner: 'right', icon: 'check circle' }}
+                            style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
+                            src={localStorage.getItem('url') + 'utilities/getFile/' + i.image} />
+                    </ImageContainer>
+                    <Card.Content>
+                        <Card.Header>{garment.name}</Card.Header>
+                        <Card.Meta>
+                            <span className='date'>{garment.subcategory_name}</span>
+                        </Card.Meta>
+                        <Card.Description>
+                            {garment.description}
+                        </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                        <a>
+                            <Icon name='dollar' />
+                            {numeral(garment.price).format('0,0.00')}
+                        </a>
+                    </Card.Content>
                 </Card>
             )
         })

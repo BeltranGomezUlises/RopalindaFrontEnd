@@ -156,21 +156,9 @@ export default class HomePageHeading extends Component {
             </Modal.Content>
           </Modal>
         </HeadingContainer>
-<<<<<<< HEAD
         <div style={{marginTop: 111}}>
           {children}
         </div>
-=======
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        {children}
-
->>>>>>> 0dbb9182acffdba945d4684ed61f1693205fd4b8
         <FooterPreInfo>
           <LocationInfo
             href="https://www.google.com/maps/place/Forum+Culiac%C3%A1n/@24.8142844,-107.4028839,17z/data=!3m1!4b1!4m5!3m4!1s0x86bcd0a76213076f:0xa0f9556f4de4be4!8m2!3d24.8142795!4d-107.4006952"
