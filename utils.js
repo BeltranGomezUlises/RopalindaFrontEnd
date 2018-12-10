@@ -26,7 +26,7 @@ export function evalResponse(response, callback, msg){
       localStorage.removeItem('logedUser');
       localStorage.removeItem('tokenSesion');
       let ruta = window.location.href.split('#');
-      window.location.href = ruta[0] + '#/login';
+      window.location.href = ruta[0] + '#/home';
       break;
   }
 }
