@@ -8,21 +8,16 @@ import {
     Button,
     Segment
 } from 'semantic-ui-react';
-import {
-    DetailContainer,
-    GarmentContainer,
-    CompatibleGarmentContainer,
-    GarmentName,
-    GarmentPrice
-} from '../../styledcomponents/GarmentDetail.js';
 import * as utils from '../../utils.js';
+import numeral from 'numeral';
 export default class GarmentDetail extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             garment: {},
-            activeImage: ''
+            activeImage: '',
+            canSave: false
         }
     }
 
@@ -42,36 +37,36 @@ export default class GarmentDetail extends Component {
                     this.setState(
                         {
                             garment: r.data,
-                            activeImage: r.data.imagesList[0] ? localStorage.getItem('url') + 'utilities/getFile/' + r.data.imagesList[0].imagesPK.imagePath : ''
+                            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + r.data.previewImage
                         })
                 })
             });
     }
     renderCompatibleGarments() {
-        return this.state.garment.compatibleGarmentList.map(i => {
+        let { garment } = this.state;
+        return garment.compatibleGarmentList.map(i => {
             return (
-                <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
-                    <ImageContainer>
+                <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={i.id} onClick={() => {
+                    i.selected = !i.selected;
+                    this.setState({ garment: garment });
+                    this.checkSaveButton();
+                }}>
+                    <div style={{ height: '120px', overflow: 'hidden' }}>
                         <Image
                             className="image-card"
-                            label={{ as: 'a', corner: 'right', icon: 'check circle' }}
+                            label={i.selected ? { corner: 'right', icon: 'check circle', color: 'green' } : null}
                             style={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'all 0.25s' }}
                             src={localStorage.getItem('url') + 'utilities/getFile/' + i.image} />
-                    </ImageContainer>
+                    </div>
                     <Card.Content>
-                        <Card.Header>{garment.name}</Card.Header>
-                        <Card.Meta>
-                            <span className='date'>{garment.subcategory_name}</span>
-                        </Card.Meta>
+                        <Card.Header>{i.name}</Card.Header>
                         <Card.Description>
-                            {garment.description}
+                            {i.description}
                         </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
-                        <a>
-                            <Icon name='dollar' />
-                            {numeral(garment.price).format('0,0.00')}
-                        </a>
+                        <Icon name='dollar' />
+                        {numeral(i.price).format('0,0.00')}
                     </Card.Content>
                 </Card>
             )
@@ -81,6 +76,7 @@ export default class GarmentDetail extends Component {
         return this.state.garment.imagesList.map(i => {
             return (
                 <Image
+                    key={i.id}
                     size='small'
                     src={localStorage.getItem('url') + 'utilities/getFile/' + i.imagesPK.imagePath}
                     centered
@@ -95,53 +91,60 @@ export default class GarmentDetail extends Component {
         })
     }
 
-    render() {
-        console.log(this.state)
-        return (
+    renderPreviewImage(){
+        this.setState({
+            activeImage: localStorage.getItem('url')+'utilities/getFile/'+ this.state.garment.previewImage
+        })
+    }
 
-            <div>
-                <div>
-                    <Segment.Group horizontal>
-                    <div style={{maxWidth: 70}}>
-                        {this.state.garment.imagesList ? this.renderGarmentImages() : <div />}
+    checkSaveButton() {
+        let lista = this.state.garment.compatibleGarmentList;
+        let save = lista.filter(i => i.selected)
+        this.setState({
+            canSave: save.length > 0
+        })
+
+    }
+
+    render() {
+        return (
+            <div style={{paddingTop: '10px'}}>
+                <h2 style={{textAlign:'center'}}>Detalle de prenda</h2>
+                <Segment.Group horizontal style={{ justifyContent: 'center' }}>
+                    <div style={{ maxWidth: 70, marginTop: '15px', marginRight: '5px' }}>
+                        {this.state.garment.imagesList ? this.renderGarmentImages() : <div/>}
                     </div>
-                    
+
                     <Card image={this.state.activeImage} />
                     <Segment.Group>
                         <Segment>
                             <h2>{this.state.garment.name}</h2>
+                            <h4>{this.state.garment.description}</h4>
                             <Icon name='dollar' />
                             {this.state.garment.price}
                         </Segment>
                         <Input
                             defaultValue='1'
                             label='Cantidad:'
+                            min='1'
                             type='number' />
-                        <Segment>
-                            <Button animated='vertical'>
-                                <Button.Content hidden>Agregar al carrito</Button.Content>
-                                <Button.Content visible>
-                                    <Icon name='shop' />
-                                </Button.Content>
-                            </Button>
-                            <Button animated='vertical'>
-                                <Button.Content hidden>Guardar prenda</Button.Content>
-                                <Button.Content visible>
-                                    <Icon name='save' />
-                                </Button.Content>
-                            </Button>
-                        </Segment>
-
+                        <div style={{ margin: '10px', display: 'flex', bottom: 0, position: 'absolute' }}>
+                            <Button label='Agregar al carrito' icon='shop' />
+                            <Button
+                                label='Guardar prenda'
+                                icon='save'
+                                disabled={!this.state.canSave} />
+                        </div>
                     </Segment.Group>
 
                 </Segment.Group>
-                </div>
-                
-                    <Card.Group>
-                        {this.state.garment.compatibleGarmentList ? this.renderCompatibleGarments() : <div />}
-                    </Card.Group>
+                <h2 style={{textAlign:'center'}}>Personaliza tu prenda</h2>
+
+                <Card.Group itemsPerRow='8' style={{ justifyContent: 'center' }}>
+                    {this.state.garment.compatibleGarmentList ? this.renderCompatibleGarments() : <div />}
+                </Card.Group>
             </div>
-            
+
         )
     }
 }

@@ -7,6 +7,7 @@ export const HeadingContainer = styled.header`
   top: 0;
   background: white;
   z-index: 999;
+  border-bottom: 1px solid;
 `;
 
 export const LogoSection = styled.div`
@@ -23,6 +24,7 @@ export const OptionsSection = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 3px;
 `;
 
 export const MainImageContainer = styled.div`
