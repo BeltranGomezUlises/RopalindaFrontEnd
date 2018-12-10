@@ -6,7 +6,7 @@ import HomePageLayout from './app_modules/Layouts/HomePageLayout.jsx';
 import HomePageHeading from './app_modules/Layouts/HomePageHeading.jsx';
 import ProspectiveRegister from './app_modules/Access/ProspectiveRegister.jsx';
 import config from './config.json';
-import GarmentDetail from './app_modules/Layouts/GarmentDetail.jsx';
+import GarmentDetail from './app_modules/Catalogs/Garments/GarmentDetail.jsx';
 import GarmentCatalog from './app_modules/Catalogs/Garments/GarmentCatalog.jsx';
 
 const App =()=>(

@@ -8,7 +8,7 @@ import {
     Segment,
     Loader
 } from 'semantic-ui-react';
-import * as utils from '../../utils.js';
+import * as utils from '../../../utils.js';
 import numeral from 'numeral';
 export default class GarmentDetail extends Component {
 
@@ -101,7 +101,7 @@ export default class GarmentDetail extends Component {
                 <Image
                     key={i.id}
                     size='small'
-                    style={{margin: 5}}
+                    style={{ margin: 5 }}
                     src={localStorage.getItem('url') + 'utilities/getFile/' + i.imagesPK.imagePath}
                     centered
                     bordered
@@ -191,13 +191,37 @@ export default class GarmentDetail extends Component {
                                 <Button
                                     label='Guardar prenda'
                                     icon='save'
-                                    disabled={!this.state.canSave} />
+                                    disabled={!this.state.canSave}
+                                    onClick={() => {
+                                        let { garment } = this.state;
+                                        let pg = {
+                                            garmentId: garment.id,
+                                            customerMail: JSON.parse(localStorage.getItem('logedUser')).mail,
+                                            compatiblesIds: []
+                                        }
+                                        garment.compatibleGarmentList.forEach(c => {
+                                            pg.compatiblesIds.push(c.id);
+                                        });
+
+                                        fetch(localStorage.getItem('url') + 'personalizedGarments/persist', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Access-Control-Allow-Origin': '*',
+                                                'Authorization': localStorage.getItem('tokenSesion')
+                                            },
+                                            body: JSON.stringify(pg)
+                                        }).then((res) => res.json())
+                                            .then((r) => {
+                                                utils.evalResponse(r, null, 'Prenda personalizada guardada')
+                                            });
+                                    }} />
                             </div>
                         </Segment.Group>
 
                     </Segment.Group>
                     {this.renderPersonalizeSection()}
-
                 </div>
 
             )
