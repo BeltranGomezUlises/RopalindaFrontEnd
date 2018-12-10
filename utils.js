@@ -23,6 +23,8 @@ export function evalResponse(response, callback, msg){
       break;
     case 'INVALID_SESSION':
       notify.show('Token inválido, inicie sesión por favor.','warning', 6000);
+      localStorage.removeItem('logedUser');
+      localStorage.removeItem('tokenSesion');
       let ruta = window.location.href.split('#');
       window.location.href = ruta[0] + '#/login';
       break;

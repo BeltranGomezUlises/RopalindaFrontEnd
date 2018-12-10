@@ -12,7 +12,7 @@ export default class CompatibleGarments extends React.Component {
 
         this.state = {
             collection: [],
-            loading: false,            
+            loading: false,
         };
     }
 
@@ -20,7 +20,7 @@ export default class CompatibleGarments extends React.Component {
         this.findAll(this.props.subCategoryId);
     }
 
-    findAll(subCategoryId) {                
+    findAll(subCategoryId) {
         this.setState({ loading: true });
         fetch(localStorage.getItem('url') + 'garments'
             + '?select=id,name,description,price,previewImage,active=true,subcategory.id=' + subCategoryId, {
@@ -39,11 +39,11 @@ export default class CompatibleGarments extends React.Component {
             })
     }
 
-    componentWillReceiveProps(nextProps) {        
+    componentWillReceiveProps(nextProps) {
         this.findAll(nextProps.subCategoryId);
     }
 
-    
+
 
     renderCollection() {
         return this.state.collection.map((garment) => {
@@ -77,17 +77,24 @@ export default class CompatibleGarments extends React.Component {
 
     render() {
         if (this.state.loading) {
-            return (<Segment style={{'min-height':'400px'}}>
-                <Loader active size='big'>Cargando...</Loader>
-            </Segment>
+            return (
+                <Segment style={{ 'min-height': '400px' }}>
+                    <Loader active size='big'>Cargando...</Loader>
+                </Segment>
             )
         } else {
             if (this.state.collection.length == 0) {
-                return (<Message
-                    warning
-                    header='Sin elementos para mostrar!'
-                    content='Esta categoría no cuenta con prendas'
-                />)
+                return (
+                    <div>
+                        <br />
+                        <Message
+                            warning
+                            header='Sin elementos para mostrar!'
+                            content='Esta categoría no cuenta con prendas'
+                        />
+                        <br />
+                    </div>
+                )
             } else {
                 return (
                     <Card.Group>

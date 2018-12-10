@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Input } from 'semantic-ui-react';
-import {
-  Modal, Button, Container, Header, Image,
-  Menu, Responsive, Segment, Visibility, Link, Dropdown
-} from 'semantic-ui-react'
+import { Modal, Header, Image, Menu, Link, Dropdown, Icon } from 'semantic-ui-react'
 import {
   HeadingContainer,
   LogoSection,
@@ -18,11 +14,12 @@ import {
   LocationInfo,
 } from '../../styledcomponents/home';
 import Login from '../Access/Login.jsx'
+import MySearch from './MySearch.jsx';
 import * as utils from '../../utils.js'
 
 
 export default class HomePageHeading extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -44,7 +41,7 @@ export default class HomePageHeading extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Authorization':''
+        'Authorization': ''
       }
     }).then((res) => res.json())
       .then((r) => {
@@ -80,16 +77,16 @@ export default class HomePageHeading extends Component {
   renderCategoryList() {
     return this.state.categories.map(i => {
       return (
-        <Dropdown 
-          style={{ marginRight: '24px' }} 
-          key={i.id} 
-          name={'prendas/'+i.name} 
-          item 
-          simple 
+        <Dropdown
+          style={{ marginRight: '24px' }}
+          key={i.id}
+          name={'prendas/' + i.name}
+          item
+          simple
           text={i.name}
           icon={
-            <img src={ localStorage.getItem('url') + 'utilities/getFile/' + i.icon}/>
-            }>
+            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon} />
+          }>
           <Dropdown.Menu>
             {this.renderSubCategoryList(i.subcategoryCollection)}
           </Dropdown.Menu>
@@ -101,8 +98,8 @@ export default class HomePageHeading extends Component {
   renderSubCategoryList(subCategories) {
     return subCategories.filter(sub => sub.active).map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={'garmentCatalog/'+sub.id} as={Link} onClick={this.handleClick}>
-          <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon}/>
+        <Dropdown.Item key={sub.id} name={'garmentCatalog/' + sub.id} as={Link} onClick={this.handleClick}>
+          <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon} />
           {sub.name}
         </Dropdown.Item>
       )
@@ -110,10 +107,46 @@ export default class HomePageHeading extends Component {
     )
   }
 
-  render(){    
+  renderCarrito() {
+    let user = localStorage.getItem('logedUser');
+    if (user) {
+      return (<Icon
+        name='shopping cart'
+        size='large'
+        style={{ position: 'absolute', right: '64px', cursor: 'pointer' }}
+      />)
+    }
+
+  }
+
+  renderLogin() {
+    let user = localStorage.getItem('logedUser');    
+    if (user !== null) {
+      return (<Icon
+        name='log out'
+        size='large'
+        style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
+        onClick={() => {
+          localStorage.removeItem('logedUser');
+          location.reload();
+        }}
+      />)
+    } else {
+      return (
+        <Icon
+          name='user outline'
+          size='large'
+          style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
+          onClick={this.openModal}
+        />
+      )
+    }
+  }
+
+  render() {
     const { children } = this.props
 
-    return(
+    return (
       <MainContainer>
         <HeadingContainer>
           <LogoSection>
@@ -124,20 +157,9 @@ export default class HomePageHeading extends Component {
             }}>
               <Image src='assets/logo.png' size='small' style={{ height: '42px', objectFit: 'contain', cursor: 'pointer' }} />
             </div>
-            
-            <Icon
-              name='user outline'
-              size='large'
-              style={{ position: 'absolute', right: '32px', cursor: 'pointer', color: '#2224267a' }}
-              onClick={this.openModal}
-            />
-
-            <Input type='text' 
-              style={{ position: 'absolute', right: '80px' }}
-              icon='search'
-              placeholder='Buscar...'
-            />              
-              
+            {this.renderCarrito()}
+            {this.renderLogin()}
+            <MySearch style={{ position: 'absolute', right: '200px' }} />
           </LogoSection>
           <OptionsSection>
             <Menu style={{ border: 'none' }}>
@@ -156,7 +178,7 @@ export default class HomePageHeading extends Component {
             </Modal.Content>
           </Modal>
         </HeadingContainer>
-        <div style={{marginTop: 111}}>
+        <div style={{ marginTop: 111 }}>
           {children}
         </div>
         <FooterPreInfo>

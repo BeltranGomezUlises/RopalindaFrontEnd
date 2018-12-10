@@ -19,28 +19,26 @@ export default class Login extends React.Component {
   }
 
   handleSubmit() {
-    fetch(localStorage.getItem('url') + 'clientes/login', {
+    fetch(localStorage.getItem('url') + 'customers/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        login: this.state.user,
+        mail: this.state.user,
         pass: this.state.pass,
       })
     }).then((res) => res.json())
       .then((response) => {
         this.setState({ loading: false });
         utils.evalResponse(response, () => {
-          localStorage.setItem('tokenSesion', response.meta.metaData);
-          localStorage.setItem('logedUser', JSON.stringify(response.data.userName));
+          localStorage.setItem('tokenSesion', response.data.token);
+          localStorage.setItem('logedUser', JSON.stringify(response.data.customer));
+          
+          location.reload();
         }, response.meta.message);
       })
-  }
-
-  handleUserChange(evt) {
-    this.setState({ user: evt.target.value });
   }
 
   renderMessage() {
@@ -64,7 +62,7 @@ export default class Login extends React.Component {
             label='Correo:'
             fluid icon='user'
             iconPosition='left'
-            placeholder='Ingrese el usuario'
+            placeholder='Ingrese el correo'
             onChange={(evt) => { this.setState({ user: evt.target.value }) }} />
           <Form.Input
             label='Contraseña:'

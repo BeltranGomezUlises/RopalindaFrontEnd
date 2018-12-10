@@ -42,7 +42,7 @@ class MainContainer extends React.Component{
   render() {
     return(
       <div>
-        <Notifications />
+        <Notifications options={{zIndex: 1001}}/>
         {this.renderMainContent()}
       </div>
     )
