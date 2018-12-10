@@ -48,7 +48,12 @@ export default class CompatibleGarments extends React.Component {
     renderCollection() {
         return this.state.collection.map((garment) => {
             return (
-                <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}>
+                <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={garment.id}
+                    onClick={() => {
+                        let ruta = window.location.href.split('#');
+                        window.location.href = ruta[0] + '#/' + 'detalle-prenda/' + garment.id;
+                    }}
+                >
                     <ImageContainer>
                         <Image
                             className="image-card"
@@ -65,10 +70,8 @@ export default class CompatibleGarments extends React.Component {
                         </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
-                        <a>
                             <Icon name='dollar' />
-                            {numeral(garment.price).format('0,0.00')}
-                        </a>
+                            {numeral(garment.price).format('0,0.00')}                        
                     </Card.Content>
                 </Card>
             )

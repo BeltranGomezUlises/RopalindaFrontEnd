@@ -21,8 +21,20 @@ export default class GarmentDetail extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        let { id } = this.props.match.params;        
+        let nextId = nextProps.match.params.id;
+        if(id != nextId){
+            this.loadData(nextId);
+        }
+    }
+
     componentWillMount() {
         let { id } = this.props.match.params;
+        this.loadData(id);
+    }
+
+    loadData(id){        
         fetch(localStorage.getItem('url') + 'garments/' + id, {
             method: 'GET',
             headers: {
@@ -41,6 +53,7 @@ export default class GarmentDetail extends Component {
                 })
             });
     }
+
     renderCompatibleGarments() {
         let { garment } = this.state;
         return garment.compatibleGarmentList.map(i => {

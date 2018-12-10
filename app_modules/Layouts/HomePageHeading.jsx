@@ -77,15 +77,15 @@ export default class HomePageHeading extends Component {
   renderCategoryList() {
     return this.state.categories.map(i => {
       return (
-        <Dropdown
+        <Dropdown key={i.id}
           style={{ marginRight: '24px' }}
-          key={i.id}
           name={'prendas/' + i.name}
-          item
-          simple
+          item simple
           text={i.name}
           icon={
-            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon} />
+            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon} 
+              heigth='24px' width='24px' style={{padding:5}}          
+               />
           }>
           <Dropdown.Menu>
             {this.renderSubCategoryList(i.subcategoryCollection)}
@@ -98,7 +98,8 @@ export default class HomePageHeading extends Component {
   renderSubCategoryList(subCategories) {
     return subCategories.filter(sub => sub.active).map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={'garmentCatalog/' + sub.id} as={Link} onClick={this.handleClick}>
+        <Dropdown.Item key={sub.id} name={'garmentCatalog/' + sub.id}
+          as={Link} onClick={this.handleClick}>
           <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon} />
           {sub.name}
         </Dropdown.Item>
@@ -120,7 +121,7 @@ export default class HomePageHeading extends Component {
   }
 
   renderLogin() {
-    let user = localStorage.getItem('logedUser');    
+    let user = localStorage.getItem('logedUser');
     if (user !== null) {
       return (<Icon
         name='log out'
