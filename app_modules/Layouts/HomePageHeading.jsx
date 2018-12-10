@@ -91,17 +91,17 @@ export default class HomePageHeading extends Component {
             <img src={ localStorage.getItem('url') + 'utilities/getFile/' + i.icon}/>
             }>
           <Dropdown.Menu>
-            {this.renderSubCategoryList(i.subcategoryCollection,i.name)}
+            {this.renderSubCategoryList(i.subcategoryCollection)}
           </Dropdown.Menu>
         </Dropdown>
       )
     })
   }
 
-  renderSubCategoryList(subCategories, categoryName) {
+  renderSubCategoryList(subCategories) {
     return subCategories.filter(sub => sub.active).map(sub => {
       return (
-        <Dropdown.Item key={sub.id} name={'prendas/'+categoryName+'/'+sub.name} as={Link} onClick={this.handleClick}>
+        <Dropdown.Item key={sub.id} name={'garmentCatalog/'+sub.id} as={Link} onClick={this.handleClick}>
           <img src={localStorage.getItem('url') + 'utilities/getFile/' + sub.icon}/>
           {sub.name}
         </Dropdown.Item>
@@ -131,13 +131,13 @@ export default class HomePageHeading extends Component {
               style={{ position: 'absolute', right: '32px', cursor: 'pointer', color: '#2224267a' }}
               onClick={this.openModal}
             />
-            <Input style={{ border: 'none', borderBottom: '1px solid rgba(34,36,38,.15)', borderRadius: 'none', position: 'absolute', right: '80px' }}
-              icon
+
+            <Input type='text' 
+              style={{ position: 'absolute', right: '80px' }}
+              icon='search'
               placeholder='Buscar...'
-            >
-              <input style={{ border: 'none' }} />
-              <Icon name='search' />
-            </Input>
+            />              
+              
           </LogoSection>
           <OptionsSection>
             <Menu style={{ border: 'none' }}>
@@ -156,6 +156,9 @@ export default class HomePageHeading extends Component {
             </Modal.Content>
           </Modal>
         </HeadingContainer>
+        <br></br>
+        <br></br>
+        <br></br>
         <br></br>
         <br></br>
         <br></br>

@@ -7,13 +7,12 @@ export default class GarmentCatalog extends Component{
         super(props)
         this.state={
             garments: []
-        }
+        }        
     }
 
     render(){
-
         return(
-            <List />
+            <List subCategoryId={this.props.match.params.subCategoryId}/>
         )
     }
 }

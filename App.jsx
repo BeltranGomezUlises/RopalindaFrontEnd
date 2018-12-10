@@ -6,7 +6,7 @@ import HomePageLayout from './app_modules/Layouts/HomePageLayout.jsx';
 import HomePageHeading from './app_modules/Layouts/HomePageHeading.jsx';
 import ProspectiveRegister from './app_modules/Access/ProspectiveRegister.jsx';
 import config from './config.json';
-import CompatibleGarments from './app_modules/Catalogs/CompatibleGarments/CompatibleGarment.jsx';
+import GarmentCatalog from './app_modules/Catalogs/Garments/GarmentCatalog.jsx';
 
 const App =()=>(
     <HashRouter>
@@ -31,7 +31,7 @@ class MainContainer extends React.Component{
           <HomePageHeading>
             <Route path="/home" component={HomePageLayout}/>
             <Route path="/prospectiveCustomerRegister" component={ProspectiveRegister}/>
-            <Route path="/ofertas" component={CompatibleGarments}/>
+            <Route path="/garmentCatalog/:subCategoryId" component={GarmentCatalog}/>
           </HomePageHeading>
         )
       }
