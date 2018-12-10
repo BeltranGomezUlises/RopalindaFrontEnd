@@ -23,15 +23,14 @@ export default class GarmentDetail extends Component {
 
     componentWillMount() {
         let { id } = this.props.match.params;
-        fetch(localStorage.getItem('url') + 'garments/' + id,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                }
-            }).then((res) => res.json())
+        fetch(localStorage.getItem('url') + 'garments/' + id, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        }).then((res) => res.json())
             .then((r) => {
                 utils.evalResponse(r, () => {
                     this.setState(
