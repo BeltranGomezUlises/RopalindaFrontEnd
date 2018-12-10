@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     Card,
     Image,
-    List,
     Icon,
     Input,
     Button,
@@ -17,8 +16,10 @@ export default class GarmentDetail extends Component {
         this.state = {
             garment: {},
             activeImage: '',
-            canSave: false
+            canSave: false,
+            quantity: 1
         }
+        this.setQuantity = this.setQuantity.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -103,9 +104,9 @@ export default class GarmentDetail extends Component {
         })
     }
 
-    renderPreviewImage(){
+    renderPreviewImage() {
         this.setState({
-            activeImage: localStorage.getItem('url')+'utilities/getFile/'+ this.state.garment.previewImage
+            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + this.state.garment.previewImage
         })
     }
 
@@ -118,13 +119,39 @@ export default class GarmentDetail extends Component {
 
     }
 
+    setQuantity(evt) {
+        let { value } = evt.target;
+        if (value < 100) {
+            this.setState({
+                quantity: value
+            })
+        }
+    }
+
+    renderPersonalizeSection() {
+        if (this.state.garment && 
+            this.state.garment.compatibleGarmentList &&
+            this.state.garment.compatibleGarmentList.length > 0) {
+            return (
+                <div>
+                    <h2 style={{ textAlign: 'center' }}>Personaliza tu prenda</h2>
+
+                    <Card.Group itemsPerRow='8' style={{ justifyContent: 'center' }}>
+                        {this.state.garment.compatibleGarmentList ? this.renderCompatibleGarments() : <div />}
+                    </Card.Group>
+                </div>
+            )
+        } else
+            return <div/>
+    }
+
     render() {
         return (
-            <div style={{paddingTop: '10px'}}>
-                <h2 style={{textAlign:'center'}}>Detalle de prenda</h2>
+            <div style={{ paddingTop: '10px' }}>
+                <h2 style={{ textAlign: 'center' }}>Detalle de prenda</h2>
                 <Segment.Group horizontal style={{ justifyContent: 'center' }}>
                     <div style={{ maxWidth: 70, marginTop: '15px', marginRight: '5px' }}>
-                        {this.state.garment.imagesList ? this.renderGarmentImages() : <div/>}
+                        {this.state.garment.imagesList ? this.renderGarmentImages() : <div />}
                     </div>
 
                     <Card image={this.state.activeImage} />
@@ -136,9 +163,10 @@ export default class GarmentDetail extends Component {
                             {this.state.garment.price}
                         </Segment>
                         <Input
-                            defaultValue='1'
                             label='Cantidad:'
                             min='1'
+                            onChange={this.setQuantity}
+                            value={this.state.quantity}
                             type='number' />
                         <div style={{ margin: '10px', display: 'flex', bottom: 0, position: 'absolute' }}>
                             <Button label='Agregar al carrito' icon='shop' />
@@ -150,11 +178,8 @@ export default class GarmentDetail extends Component {
                     </Segment.Group>
 
                 </Segment.Group>
-                <h2 style={{textAlign:'center'}}>Personaliza tu prenda</h2>
+                {this.renderPersonalizeSection()}
 
-                <Card.Group itemsPerRow='8' style={{ justifyContent: 'center' }}>
-                    {this.state.garment.compatibleGarmentList ? this.renderCompatibleGarments() : <div />}
-                </Card.Group>
             </div>
 
         )
