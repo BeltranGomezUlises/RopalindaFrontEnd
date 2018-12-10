@@ -5,7 +5,8 @@ import {
     Icon,
     Input,
     Button,
-    Segment
+    Segment,
+    Loader
 } from 'semantic-ui-react';
 import * as utils from '../../utils.js';
 import numeral from 'numeral';
@@ -14,6 +15,7 @@ export default class GarmentDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            loading: true,
             garment: {},
             activeImage: '',
             canSave: false,
@@ -22,10 +24,10 @@ export default class GarmentDetail extends Component {
         this.setQuantity = this.setQuantity.bind(this);
     }
 
-    componentWillReceiveProps(nextProps){
-        let { id } = this.props.match.params;        
+    componentWillReceiveProps(nextProps) {
+        let { id } = this.props.match.params;
         let nextId = nextProps.match.params.id;
-        if(id != nextId){
+        if (id != nextId) {
             this.loadData(nextId);
         }
     }
@@ -35,7 +37,7 @@ export default class GarmentDetail extends Component {
         this.loadData(id);
     }
 
-    loadData(id){        
+    loadData(id) {
         fetch(localStorage.getItem('url') + 'garments/' + id, {
             method: 'GET',
             headers: {
@@ -55,6 +57,7 @@ export default class GarmentDetail extends Component {
                         });
                     this.setState(
                         {
+                            loading: false,
                             garment: r.data,
                             activeImage: localStorage.getItem('url') + 'utilities/getFile/' + r.data.previewImage
                         })
@@ -98,6 +101,7 @@ export default class GarmentDetail extends Component {
                 <Image
                     key={i.id}
                     size='small'
+                    style={{margin: 5}}
                     src={localStorage.getItem('url') + 'utilities/getFile/' + i.imagesPK.imagePath}
                     centered
                     bordered
@@ -136,7 +140,7 @@ export default class GarmentDetail extends Component {
     }
 
     renderPersonalizeSection() {
-        if (this.state.garment && 
+        if (this.state.garment &&
             this.state.garment.compatibleGarmentList &&
             this.state.garment.compatibleGarmentList.length > 0) {
             return (
@@ -149,46 +153,55 @@ export default class GarmentDetail extends Component {
                 </div>
             )
         } else
-            return <div/>
+            return <div />
     }
 
     render() {
-        return (
-            <div style={{ paddingTop: '10px' }}>
-                <h2 style={{ textAlign: 'center' }}>Detalle de prenda</h2>
-                <Segment.Group horizontal style={{ justifyContent: 'center' }}>
-                    <div style={{ maxWidth: 70, marginTop: '15px', marginRight: '5px' }}>
-                        {this.state.garment.imagesList ? this.renderGarmentImages() : <div />}
-                    </div>
-
-                    <Card image={this.state.activeImage} />
-                    <Segment.Group>
-                        <Segment>
-                            <h2>{this.state.garment.name}</h2>
-                            <h4>{this.state.garment.description}</h4>
-                            <Icon name='dollar' />
-                            {this.state.garment.price}
-                        </Segment>
-                        <Input
-                            label='Cantidad:'
-                            min='1'
-                            onChange={this.setQuantity}
-                            value={this.state.quantity}
-                            type='number' />
-                        <div style={{ margin: '10px', display: 'flex', bottom: 0, position: 'absolute' }}>
-                            <Button label='Agregar al carrito' icon='shop' />
-                            <Button
-                                label='Guardar prenda'
-                                icon='save'
-                                disabled={!this.state.canSave} />
+        if (this.state.loading) {
+            return (
+                <Segment style={{ 'min-height': '400px' }}>
+                    <Loader active size='big'>Cargando...</Loader>
+                </Segment>
+            )
+        } else {
+            return (
+                <div style={{ paddingTop: '10px' }}>
+                    <h2 style={{ textAlign: 'center' }}>Detalle de prenda</h2>
+                    <Segment.Group horizontal style={{ justifyContent: 'center' }}>
+                        <div style={{ maxWidth: 70, marginRight: '5px' }}>
+                            {this.state.garment.imagesList ? this.renderGarmentImages() : <div />}
                         </div>
+
+                        <Card image={this.state.activeImage} />
+                        <Segment.Group>
+                            <Segment>
+                                <h2>{this.state.garment.name}</h2>
+                                <h4>{this.state.garment.description}</h4>
+                                <Icon name='dollar' />
+                                {this.state.garment.price}
+                            </Segment>
+                            <Input
+                                label='Cantidad:'
+                                min='1'
+                                onChange={this.setQuantity}
+                                value={this.state.quantity}
+                                type='number' />
+                            <div style={{ margin: '10px', display: 'flex', bottom: 0, position: 'absolute' }}>
+                                <Button label='Agregar al carrito' icon='shop' />
+                                <Button
+                                    label='Guardar prenda'
+                                    icon='save'
+                                    disabled={!this.state.canSave} />
+                            </div>
+                        </Segment.Group>
+
                     </Segment.Group>
+                    {this.renderPersonalizeSection()}
 
-                </Segment.Group>
-                {this.renderPersonalizeSection()}
+                </div>
 
-            </div>
+            )
+        }
 
-        )
     }
 }
