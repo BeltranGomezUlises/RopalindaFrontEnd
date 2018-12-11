@@ -25,7 +25,8 @@ export default class Pedido extends Component {
             flipped: false,
             cvv: '',
             limit: 16,
-            addresses: []
+            addresses: [],
+            paymentType: 0
         }
 
         this.loadAddresses = this.loadAddresses.bind(this);
@@ -133,7 +134,7 @@ export default class Pedido extends Component {
                             </Card.Content>
                             <Card.Content extra>
                                 <Button primary onClick={() => {
-                                    this.setState({ selectedMethod: 'deposit' })
+                                    this.setState({ selectedMethod: 'deposit', paymentType: 0 })
                                 }}>
                                     Seleccionar
                         </Button>
@@ -147,7 +148,7 @@ export default class Pedido extends Component {
                             </Card.Content>
                             <Card.Content extra>
                                 <Button primary onClick={() => {
-                                    this.setState({ selectedMethod: 'card' })
+                                    this.setState({ selectedMethod: 'card', paymentType: 1 })
                                 }}>
                                     Seleccionar
                         </Button>
@@ -233,9 +234,9 @@ export default class Pedido extends Component {
                             </Form.Group>
                         </Form>
                     </Segment>
-                    <div style={{textAlign: 'center'}}>
-                        <Button 
-                            color='green' 
+                    <div style={{ textAlign: 'center' }}>
+                        <Button
+                            color='green'
                             onClick={() => { this.setState({ active: 'confirm', selectedMethod: null }) }}
                             fluid>
                             Check
@@ -256,6 +257,44 @@ export default class Pedido extends Component {
                     if (this.state.selectedAddress == null) {
                         this.setState({ active: 'truck' });
                     }
+                    let lineas = [];
+                    JSON.parse(localStorage.getItem('carrito')).lineas.forEach(element => {
+                        let ids = element.compatibles.map(i => i.id)
+                        lineas.push({
+                            garmentId: element.garmentId,
+                            quantity: element.quantity,
+                            compatibleIds: ids
+                        })
+                    });
+                    let objeto = {
+                        customerMail: JSON.parse(localStorage.getItem('logedUser')).email,
+                        customerAddressId: this.state.selectedAddress.id,
+                        paymentType: this.state.paymentType,
+                        paymentData: this.state.paymentType == 1 ? JSON.stringify({
+                            nombre: this.state.nombre,
+                            numero: this.state.numeroTarjeta,
+                            fecha: this.state.mes + '/' + this.state.anio,
+                            cvv: this.state.cvv
+                        }) : '',
+                        lines: lineas
+                    }
+                    fetch(localStorage.getItem('url') + 'orders/persist', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*',
+                                'Authorization': localStorage.getItem('tokenSesion')
+                            },
+                            body: JSON.stringify(objeto)
+                        }).then((res) => res.json())
+                        .then((r) => {
+                            this.setState({ loading: false });
+                            utils.evalResponse(r, () => {
+                                //TODO
+                            });
+                        })
+
                 }}>Confirmar pedido</Button>
             </Segment >)
         }
