@@ -134,7 +134,7 @@ export default class Pedido extends Component {
                             </Card.Content>
                             <Card.Content extra>
                                 <Button primary onClick={() => {
-                                    this.setState({ selectedMethod: 'deposit', paymentType: 0 })
+                                    this.setState({ selectedMethod: 'deposit', paymentType: 0, active: 'confirm' })
                                 }}>
                                     Seleccionar
                         </Button>

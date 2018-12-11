@@ -6,7 +6,8 @@ import {
     Input,
     Button,
     Segment,
-    Loader
+    Loader,
+    Header
 } from 'semantic-ui-react';
 import * as utils from '../../../utils.js';
 import numeral from 'numeral';
@@ -18,7 +19,8 @@ export default class PersonalizedGarmentDetail extends Component {
             loading: true,
             garment: {},
             activeImage: '',
-            quantity: 1
+            quantity: 1,
+            total: 0
         }
         this.setQuantity = this.setQuantity.bind(this);
     }
@@ -48,11 +50,15 @@ export default class PersonalizedGarmentDetail extends Component {
         }).then((res) => res.json())
             .then((r) => {
                 utils.evalResponse(r, () => {
+                    let subTotal = r.data.garment.price;
+                    r.data.personalizedGarmentCompatibleList.forEach(c => { subTotal += c.compatibleGarment.price });
+                    subTotal = this.calculateTotal(1, subTotal);
                     this.setState(
                         {
                             loading: false,
                             garment: r.data,
-                            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + r.data.garment.previewImage
+                            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + r.data.garment.previewImage,
+                            total: subTotal
                         })
                 })
             });
@@ -87,9 +93,14 @@ export default class PersonalizedGarmentDetail extends Component {
 
     setQuantity(evt) {
         let { value } = evt.target;
-        if (value < 100) {
+        if (value <= 999) {
+            let { garment } = this.state;
+            let subTotal = garment.garment.price;
+            garment.personalizedGarmentCompatibleList.forEach(c => { subTotal += c.compatibleGarment.price });
+            subTotal = this.calculateTotal(value, subTotal);
             this.setState({
-                quantity: value
+                quantity: value,
+                total: subTotal
             })
         }
     }
@@ -114,6 +125,11 @@ export default class PersonalizedGarmentDetail extends Component {
             )
         } else
             return <div />
+    }
+
+    calculateTotal(quantity, subTotal) {
+        if (quantity == '') quantity = 1
+        return Math.floor(Math.abs(quantity)) * subTotal
     }
 
     render() {
@@ -142,8 +158,45 @@ export default class PersonalizedGarmentDetail extends Component {
                                 onChange={this.setQuantity}
                                 value={this.state.quantity}
                                 type='number' />
+                                <div style={{ margin: '10px', textAlign: 'right' }}>
+                                <Header sub>Total</Header>
+                                <h3 style={{ color: 'green' }}>${this.state.total}</h3>
+                            </div>
                             <div style={{ margin: '10px', display: 'flex', bottom: 0, position: 'absolute' }}>
-                                <Button label='Agregar al carrito' icon='shop' />
+                                <Button 
+                                    label='Agregar al carrito' 
+                                    icon='shop'
+                                    onClick={()=>{
+                                        let { garment, quantity, total } = this.state;
+                                        console.log('garment', garment)
+                                    let compatibles = garment.personalizedGarmentCompatibleList.map(c => {
+                                        return {
+                                            id: c.compatibleGarment.id,
+                                            previewImage: c.compatibleGarment.previewImage,
+                                            name: c.compatibleGarment.name                                            
+                                        }});
+                                    let lineaCarrito = {
+                                        garmentId: garment.garment.id,
+                                        garmentName: garment.garment.name,
+                                        garmentDescription: garment.garment.description,
+                                        total,
+                                        previewImage: garment.garment.previewImage,
+                                        quantity,
+                                        compatibles,
+                                        id: crypto.getRandomValues(new Uint32Array(4)).join('-')
+                                    }
+                                    let carrito = JSON.parse(localStorage.getItem('carrito'));
+                                    if(carrito == null){
+                                        carrito = {
+                                            lineas: []
+                                        }
+                                    }
+                                    carrito.lineas.push(lineaCarrito);
+                                    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+                                    let ruta = window.location.href.split('#');
+                                    window.location.href = ruta[0] + '#/garmentCatalog/' + garment.garment.subcategory.id;
+                                    }} />
                             </div>
                         </Segment.Group>
 
