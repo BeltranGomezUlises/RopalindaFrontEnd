@@ -88,21 +88,21 @@ export default class GarmentDetail extends Component {
     setQuantity(evt) {
         let { value } = evt.target;
         if (value <= 999) {
-            let subTotal = this.calculateTotal(value);
-            let {garment} = this.state;
-            garment.compatibleGarmentList.filter(c => c.selected).forEach(c =>{subTotal += c.price}); 
+            let { garment } = this.state;
+            let subTotal = garment.price;
+            garment.compatibleGarmentList.filter(c => c.selected).forEach(c => { subTotal += c.price });
+            subTotal = this.calculateTotal(value, subTotal);
             this.setState({
                 quantity: value,
                 total: subTotal
             })
         }
-        
+
     }
 
-    calculateTotal(quantity) {
-        let { garment } = this.state;
-        if(quantity == '') quantity = 1
-        return Math.floor(Math.abs(quantity)) * garment.price        
+    calculateTotal(quantity, subTotal) {
+        if (quantity == '') quantity = 1
+        return Math.floor(Math.abs(quantity)) * subTotal
     }
 
     renderPersonalizeSection() {
@@ -128,12 +128,13 @@ export default class GarmentDetail extends Component {
             return (
                 <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={i.id} onClick={() => {
                     i.selected = !i.selected;
-                    let {quantity} = this.state;
-                    let subTotal = this.calculateTotal(quantity);
-                    garment.compatibleGarmentList.filter(c => c.selected).forEach(c =>{subTotal += c.price});                    
+                    let { quantity } = this.state;
+                    let subTotal = garment.price;
+                    garment.compatibleGarmentList.filter(c => c.selected).forEach(c => { subTotal += c.price });
+                    subTotal = this.calculateTotal(quantity, subTotal);
                     this.setState({ garment: garment, total: subTotal });
                     this.checkSaveButton();
-                    
+
                 }}>
                     <div style={{ height: '120px', overflow: 'hidden' }}>
                         <Image
@@ -161,7 +162,7 @@ export default class GarmentDetail extends Component {
         return this.state.garment.imagesList.map(i => {
             return (
                 <Image
-                    key={i.id}
+                    key={i.imagesPK.imagePath}
                     size='small'
                     style={{ margin: 5 }}
                     src={localStorage.getItem('url') + 'utilities/getFile/' + i.imagesPK.imagePath}
@@ -180,7 +181,7 @@ export default class GarmentDetail extends Component {
     render() {
         if (this.state.loading) {
             return (
-                <Segment style={{ 'min-height': '400px' }}>
+                <Segment style={{minHeight: 400}}>
                     <Loader active size='big'>Cargando...</Loader>
                 </Segment>
             )
@@ -215,8 +216,34 @@ export default class GarmentDetail extends Component {
 
                             <div style={{ margin: '10px', display: 'flex', bottom: 0 }}>
                                 <Button label='Al carrito' icon='shop' onClick={() => {
-                                    let { garment, quantity } = this.state;
-                                    console.log(garment, quantity);
+                                    let { garment, quantity, total } = this.state;
+                                    let compatibles = garment.compatibleGarmentList.filter(c => c.selected).map(c => {
+                                        return {
+                                            id: c.id,
+                                            previewImage: c.previewImage,
+                                            name: c.name                                            
+                                        }});
+                                    let lineaCarrito = {
+                                        garmentId: garment.id,
+                                        garmentName: garment.name,
+                                        garmentDescription: garment.description,
+                                        total,
+                                        previewImage: garment.previewImage,
+                                        quantity,
+                                        compatibles,
+                                        id: crypto.getRandomValues(new Uint32Array(4)).join('-')
+                                    }
+                                    let carrito = JSON.parse(localStorage.getItem('carrito'));
+                                    if(carrito == null){
+                                        carrito = {
+                                            lineas: []
+                                        }
+                                    }
+                                    carrito.lineas.push(lineaCarrito);
+                                    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+                                    let ruta = window.location.href.split('#');
+                                    window.location.href = ruta[0] + '#/garmentCatalog/' + garment.subcategory.id;  
                                 }}
                                 />
                                 <Button

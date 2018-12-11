@@ -93,11 +93,9 @@ export default class HomePageLayout extends Component {
                     {garment.description}
                   </Card.Description>
                 </Card.Content>
-                <Card.Content extra>
-                  <a>
+                <Card.Content extra>                  
                     <Icon name='dollar' />
-                    {numeral(garment.price).format('0,0.00')}
-                  </a>
+                    {numeral(garment.price).format('0,0.00')}                  
                 </Card.Content>
               </Card>
             ))

@@ -8,6 +8,7 @@ import ProspectiveRegister from './app_modules/Access/ProspectiveRegister.jsx';
 import config from './config.json';
 import GarmentDetail from './app_modules/Catalogs/Garments/GarmentDetail.jsx';
 import GarmentCatalog from './app_modules/Catalogs/Garments/GarmentCatalog.jsx';
+import Pedido from './app_modules/Pedido/Pedido.jsx';
 
 const App =()=>(
     <HashRouter>
@@ -34,6 +35,7 @@ class MainContainer extends React.Component{
             <Route path="/prospectiveCustomerRegister" component={ProspectiveRegister}/>
             <Route path={"/detalle-prenda/:id"} component={GarmentDetail}/>
             <Route path="/garmentCatalog/:subCategoryId" component={GarmentCatalog}/>
+            <Route path="/pedido" component={Pedido}/>
           </HomePageHeading>
         )
       }
