@@ -10,6 +10,22 @@ export default class Carrito extends Component {
         }
     }
 
+    renderButtonEliminar(linea){
+        if (this.props.mode == 'carrito') {
+            return(
+                <Button icon='trash' size='small' color='red' floated='right' onClick={() => {
+                    let { carrito } = this.state;
+                    carrito.lineas = carrito.lineas.filter(l => l.id != linea.id);
+                    if (carrito.lineas.length == 0) {
+                        carrito = null;
+                    }
+                    this.setState({ carrito });
+                    localStorage.setItem('carrito', JSON.stringify(carrito));
+                }} />
+            )
+        }
+    }
+
     renderItems() {
         let { carrito } = this.state;
         return carrito.lineas.map(linea => {
@@ -25,29 +41,35 @@ export default class Carrito extends Component {
                         </Item.Meta>
                         <Item.Description>{linea.garmentDescription}</Item.Description>
                         {this.renderCompatibles(linea.compatibles)}
-                        <Button icon='trash' size='small' color='red' floated='right' onClick={() => {
-                            let {carrito} = this.state;                            
-                            carrito.lineas = carrito.lineas.filter(l => l.id != linea.id); 
-                            if(carrito.lineas.length == 0){
-                                carrito = null;
-                            }                       
-                            this.setState({ carrito });
-                            localStorage.setItem('carrito', carrito);
-                        }} />
+                        {this.renderButtonEliminar(linea)}
                     </Item.Content>
-                    
+
                 </Item>
             )
         })
     }
 
-    renderCompatibles(compatibles){        
+    renderCompatibles(compatibles) {
         return compatibles.map(c => {
             let rutaImagen = localStorage.getItem('url') + 'utilities/getFile/' + c.previewImage;
-            return(
-                <Image key={c.id} src={rutaImagen} size='small' centered bordered style={{display:'inline'}}/>
+            return (
+                <Image key={c.id} src={rutaImagen} size='small' centered bordered style={{ display: 'inline' }} />
             )
         })
+    }
+
+    renderButton() {
+        if (this.props.mode == 'carrito') {
+            return (
+                <Button primary floated='right' onClick={() => {
+                    let ruta = window.location.href.split('#');
+                    window.location.href = ruta[0] + '#/pedido';
+                    this.props.close()
+                }} >
+                    Finalizar compra
+                </Button>
+            )
+        }
     }
 
     render() {
@@ -75,13 +97,7 @@ export default class Carrito extends Component {
                 <h3 style={{ color: 'green', display: 'inline' }}>
                     ${total}
                 </h3>
-                <Button primary floated='right' onClick={() => {
-                    let ruta = window.location.href.split('#');
-                    window.location.href = ruta[0] + '#/pedido';  
-                    this.props.close()
-                }} >
-                    Finalizar compra
-                </Button>
+                {this.renderButton()}
             </div>
         )
     }

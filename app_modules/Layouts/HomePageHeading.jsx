@@ -200,7 +200,7 @@ export default class HomePageHeading extends Component {
           >
             <Header content='Carrito de compras' textAlign='center' />
             <Modal.Content >
-              <Carrito close={this.closeModalCarrito} />
+              <Carrito close={this.closeModalCarrito} mode='carrito'/>
             </Modal.Content>
           </Modal>
         </HeadingContainer>
