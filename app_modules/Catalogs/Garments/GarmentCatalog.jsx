@@ -85,7 +85,7 @@ export default class GarmentCatalog extends React.Component{
     render() {
         if (this.state.loading) {
             return (
-                <Segment style={{ 'min-height': '400px' }}>
+                <Segment style={{minHeight: 400}}>
                     <Loader active size='big'>Cargando...</Loader>
                 </Segment>
             )

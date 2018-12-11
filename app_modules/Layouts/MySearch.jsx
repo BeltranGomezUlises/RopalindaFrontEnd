@@ -69,8 +69,7 @@ export default class SearchExampleCategory extends Component {
         const { isLoading, value, results } = this.state
         return (
             <Search
-                category
-                minCharacters='3'
+                category                
                 loading={isLoading}
                 onResultSelect={this.handleResultSelect}
                 onSearchChange={this.handleSearchChange}
