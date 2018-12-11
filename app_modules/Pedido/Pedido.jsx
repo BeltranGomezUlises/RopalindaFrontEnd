@@ -267,7 +267,7 @@ export default class Pedido extends Component {
                         })
                     });
                     let objeto = {
-                        customerMail: JSON.parse(localStorage.getItem('logedUser')).email,
+                        customerMail: JSON.parse(localStorage.getItem('logedUser')).mail,
                         customerAddressId: this.state.selectedAddress.id,
                         paymentType: this.state.paymentType,
                         paymentData: this.state.paymentType == 1 ? JSON.stringify({
@@ -291,8 +291,8 @@ export default class Pedido extends Component {
                         .then((r) => {
                             this.setState({ loading: false });
                             utils.evalResponse(r, () => {
-                                //TODO
-                            });
+                                
+                            }, 'Pedido completado');
                         })
 
                 }}>Confirmar pedido</Button>
