@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Header, Image, Menu, Link, Dropdown, Icon } from 'semantic-ui-react'
+import { Modal, Header, Image, Menu, Link, Dropdown, Icon, Popup } from 'semantic-ui-react'
 import {
   HeadingContainer,
   LogoSection,
@@ -24,7 +24,6 @@ export default class HomePageHeading extends Component {
 
     this.state = {
       modalLoginVisible: false,
-      activeItem: 'home',
       categories: []
     }
     this.hideFixedMenu = this.hideFixedMenu.bind(this);
@@ -62,8 +61,6 @@ export default class HomePageHeading extends Component {
   handleClick(e, { name }) {
     let ruta = window.location.href.split('#');
     window.location.href = ruta[0] + '#/' + name;
-
-    this.setState({ activeItem: name })
   }
 
   closeModal() {
@@ -83,9 +80,9 @@ export default class HomePageHeading extends Component {
           item simple
           text={i.name}
           icon={
-            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon} 
-              heigth='24px' width='24px' style={{padding:5}}          
-               />
+            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon}
+              heigth='24px' width='24px' style={{ padding: 5 }}
+            />
           }>
           <Dropdown.Menu>
             {this.renderSubCategoryList(i.subcategoryCollection)}
@@ -111,35 +108,62 @@ export default class HomePageHeading extends Component {
   renderCarrito() {
     let user = localStorage.getItem('logedUser');
     if (user) {
-      return (<Icon
-        name='shopping cart'
-        size='large'
-        style={{ position: 'absolute', right: '64px', cursor: 'pointer' }}
-      />)
+      return (
+        <Popup trigger={
+          <Icon
+            name='shopping cart'
+            size='large'
+            style={{ position: 'absolute', right: '64px', cursor: 'pointer' }}
+          />} content='Carrito' />
+      )
     }
+  }
 
+  renderMyPersonalizedGarments() {
+    let user = localStorage.getItem('logedUser');
+    if (user) {
+      return (
+        <Popup trigger={
+          <Icon
+            name='tags'
+            style={{ position: 'absolute', right: '90px', cursor: 'pointer' }}
+            size='large'
+            onClick={() => {
+              let ruta = window.location.href.split('#');
+              window.location.href = ruta[0] + '#/personalized-garments';
+            }}
+          />}
+          content='Mis prendas personalizadas'
+          />
+      )
+    }
   }
 
   renderLogin() {
     let user = localStorage.getItem('logedUser');
     if (user !== null) {
-      return (<Icon
-        name='log out'
-        size='large'
-        style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
-        onClick={() => {
-          localStorage.removeItem('logedUser');
-          location.reload();
-        }}
-      />)
+      return (
+        <Popup trigger={
+          <Icon
+            name='log out'
+            size='large'
+            style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
+            onClick={() => {
+              localStorage.removeItem('logedUser');
+              location.reload();
+            }}
+          />} content='Salir' />
+      )
     } else {
       return (
-        <Icon
-          name='user outline'
-          size='large'
-          style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
-          onClick={this.openModal}
-        />
+        <Popup trigger={
+          <Icon
+            name='user outline'
+            size='large'
+            style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
+            onClick={this.openModal}
+          />} content='Iniciar sesión' />
+
       )
     }
   }
@@ -154,13 +178,13 @@ export default class HomePageHeading extends Component {
             <div onClick={() => {
               let ruta = window.location.href.split('#');
               window.location.href = ruta[0] + '#/' + 'home';
-              this.setState({ activeItem: 'home' })
             }}>
               <Image src='assets/logo.png' size='small' style={{ height: '42px', objectFit: 'contain', cursor: 'pointer' }} />
             </div>
             {this.renderCarrito()}
             {this.renderLogin()}
             <MySearch style={{ position: 'absolute', right: '200px' }} />
+            {this.renderMyPersonalizedGarments()}
           </LogoSection>
           <OptionsSection>
             <Menu style={{ border: 'none' }}>
