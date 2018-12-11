@@ -257,7 +257,7 @@ export default class GarmentDetail extends Component {
                                             customerMail: JSON.parse(localStorage.getItem('logedUser')).mail,
                                             compatiblesIds: []
                                         }
-                                        garment.compatibleGarmentList.forEach(c => {
+                                        garment.compatibleGarmentList.filter(c => c.selected).forEach(c => {
                                             pg.compatiblesIds.push(c.id);
                                         });
 

@@ -7,7 +7,9 @@ import HomePageHeading from './app_modules/Layouts/HomePageHeading.jsx';
 import ProspectiveRegister from './app_modules/Access/ProspectiveRegister.jsx';
 import config from './config.json';
 import GarmentDetail from './app_modules/Catalogs/Garments/GarmentDetail.jsx';
+import PersonalizedGarmentDetail from './app_modules/Catalogs/Garments/PersonalizedGarmentDetail.jsx';
 import GarmentCatalog from './app_modules/Catalogs/Garments/GarmentCatalog.jsx';
+import PersonalizedGarmentCatalog from './app_modules/Catalogs/Garments/PersonalizedGarmentCatalog.jsx';
 import Pedido from './app_modules/Pedido/Pedido.jsx';
 
 const App =()=>(
@@ -34,7 +36,9 @@ class MainContainer extends React.Component{
             <Route path="/home" component={HomePageLayout}/>
             <Route path="/prospectiveCustomerRegister" component={ProspectiveRegister}/>
             <Route path={"/detalle-prenda/:id"} component={GarmentDetail}/>
+            <Route path={"/detalle-prenda-personalizada/:id"} component={PersonalizedGarmentDetail}/>
             <Route path="/garmentCatalog/:subCategoryId" component={GarmentCatalog}/>
+            <Route path="/personalized-garments" component={PersonalizedGarmentCatalog}/>
             <Route path="/pedido" component={Pedido}/>
           </HomePageHeading>
         )

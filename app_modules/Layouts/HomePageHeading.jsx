@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Header, Image, Menu, Link, Dropdown, Icon } from 'semantic-ui-react'
+import { Modal, Header, Image, Menu, Link, Dropdown, Icon, Popup, Label } from 'semantic-ui-react'
 import {
   HeadingContainer,
   LogoSection,
@@ -24,7 +24,6 @@ export default class HomePageHeading extends Component {
 
     this.state = {
       modalLoginVisible: false,
-      activeItem: 'home',
       categories: [],
       modalCarrito: false
     }
@@ -65,8 +64,6 @@ export default class HomePageHeading extends Component {
   handleClick(e, { name }) {
     let ruta = window.location.href.split('#');
     window.location.href = ruta[0] + '#/' + name;
-
-    this.setState({ activeItem: name })
   }
 
   closeModal() {
@@ -77,12 +74,12 @@ export default class HomePageHeading extends Component {
     this.setState({ modalLoginVisible: true })
   }
 
-  openModalCarrito(){
-    this.setState({modalCarrito: true});
+  openModalCarrito() {
+    this.setState({ modalCarrito: true });
   }
 
-  closeModalCarrito(){
-    this.setState({modalCarrito: false});
+  closeModalCarrito() {
+    this.setState({ modalCarrito: false });
   }
 
   renderCategoryList() {
@@ -121,39 +118,90 @@ export default class HomePageHeading extends Component {
 
   renderCarrito() {
     let user = localStorage.getItem('logedUser');
-    if (user) {
-      return (<Icon
-        name='shopping cart'
-        size='large'
-        style={{ position: 'absolute', right: '64px', cursor: 'pointer' }}
-        onClick={this.openModalCarrito}
-      />)
+    let carrito;
+     if(localStorage.getItem('carrito') != null){
+      carrito = JSON.parse(localStorage.getItem('carrito'))
     }
+    if (user) {
+      return (
+        <Menu.Item as='a' style={{ padding: 5 }}>
+          <Popup trigger={
+            <div>
+              <Icon
+                name='shopping cart'
+                size='large'
+                style={{ position: 'relative', cursor: 'pointer', margin: 0 }}
+                onClick={this.openModalCarrito}
+              />
+              {carrito != null && carrito.lineas != null ? 
+              <Label size='tiny' color='red' floating style={{ top: -5 }}>
+                {carrito.lineas.length}
+              </Label> : null}
 
+            </div>
+          } content='Carrito' />
+        </Menu.Item>
+
+      )
+    }
+  }
+
+  renderMyPersonalizedGarments() {
+    let user = localStorage.getItem('logedUser');
+    if (user) {
+      return (
+        <Menu.Item as='a' style={{ padding: 5 }}>
+          <Popup trigger={
+            <Icon
+              name='tags'
+              style={{ cursor: 'pointer', margin: 0 }}
+              size='large'
+              onClick={() => {
+                let ruta = window.location.href.split('#');
+                window.location.href = ruta[0] + '#/personalized-garments';
+              }}
+            />
+          }
+            content='Mis prendas personalizadas'
+          />
+        </Menu.Item>
+      )
+    }
   }
 
   renderLogin() {
     let user = localStorage.getItem('logedUser');
     if (user !== null) {
-      return (<Icon
-        name='log out'
-        size='large'
-        style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
-        onClick={() => {
-          localStorage.removeItem('logedUser');
-          localStorage.removeItem('tokenSesion');
-          localStorage.removeItem('carrito');
-          location.reload();
-        }}
-      />)
+      return (
+        <Menu.Item as='a' style={{ padding: 5 }}>
+          <Popup trigger={
+            <Icon
+              name='log out'
+              size='large'
+              style={{ cursor: 'pointer', margin: 0 }}
+              onClick={() => {
+                localStorage.removeItem('logedUser');
+                localStorage.removeItem('tokenSesion');
+                localStorage.removeItem('carrito');
+                location.reload();
+              }}
+            />} content='Salir' />
+        </Menu.Item>
+
+      )
     } else {
       return (
-        <Icon
-          name='user outline'
-          size='large'
-          style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
-          onClick={this.openModal}
-        />
+        <Menu.Item as='a' style={{ padding: 5 }}>
+          <Popup trigger={
+            <Icon
+              name='user outline'
+              size='large'
+              style={{ cursor: 'pointer' }}
+              onClick={this.openModal}
+            />} content='Iniciar sesión' />
+        </Menu.Item>
+
+
       )
     }
   }
@@ -168,12 +216,17 @@ export default class HomePageHeading extends Component {
             <div onClick={() => {
               let ruta = window.location.href.split('#');
               window.location.href = ruta[0] + '#/' + 'home';
-              this.setState({ activeItem: 'home' })
             }}>
               <Image src='assets/logo.png' size='small' style={{ height: '42px', objectFit: 'contain', cursor: 'pointer' }} />
             </div>
-            {this.renderCarrito()}
-            {this.renderLogin()}
+            <Menu compact borderless style={{ position: 'absolute', right: 5 }}>
+
+              {this.renderMyPersonalizedGarments()}
+
+              {this.renderCarrito()}
+              {this.renderLogin()}
+            </Menu>
+
             <MySearch style={{ position: 'absolute', right: '200px' }} />
           </LogoSection>
           <OptionsSection>
@@ -196,7 +249,7 @@ export default class HomePageHeading extends Component {
           <Modal
             onClose={this.closeModalCarrito}
             open={this.state.modalCarrito}
-            onOpen={this.openModalCarrito}                        
+            onOpen={this.openModalCarrito}
           >
             <Header content='Carrito de compras' textAlign='center' />
             <Modal.Content >
