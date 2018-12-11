@@ -6,7 +6,8 @@ import {
     Input,
     Button,
     Segment,
-    Loader
+    Loader,
+    Header
 } from 'semantic-ui-react';
 import * as utils from '../../../utils.js';
 import numeral from 'numeral';
@@ -19,7 +20,8 @@ export default class GarmentDetail extends Component {
             garment: {},
             activeImage: '',
             canSave: false,
-            quantity: 1
+            quantity: 1,
+            total: 0
         }
         this.setQuantity = this.setQuantity.bind(this);
     }
@@ -59,10 +61,65 @@ export default class GarmentDetail extends Component {
                         {
                             loading: false,
                             garment: r.data,
-                            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + r.data.previewImage
+                            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + r.data.previewImage,
+                            total: r.data.price
                         })
                 })
             });
+    }
+
+
+
+    renderPreviewImage() {
+        this.setState({
+            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + this.state.garment.previewImage
+        })
+    }
+
+    checkSaveButton() {
+        let lista = this.state.garment.compatibleGarmentList;
+        let save = lista.filter(i => i.selected)
+        this.setState({
+            canSave: save.length > 0
+        })
+
+    }
+
+    setQuantity(evt) {
+        let { value } = evt.target;
+        if (value <= 999) {
+            let subTotal = this.calculateTotal(value);
+            let {garment} = this.state;
+            garment.compatibleGarmentList.filter(c => c.selected).forEach(c =>{subTotal += c.price}); 
+            this.setState({
+                quantity: value,
+                total: subTotal
+            })
+        }
+        
+    }
+
+    calculateTotal(quantity) {
+        let { garment } = this.state;
+        if(quantity == '') quantity = 1
+        return Math.floor(Math.abs(quantity)) * garment.price        
+    }
+
+    renderPersonalizeSection() {
+        if (this.state.garment &&
+            this.state.garment.compatibleGarmentList &&
+            this.state.garment.compatibleGarmentList.length > 0) {
+            return (
+                <div>
+                    <h2 style={{ textAlign: 'center' }}>Personaliza tu prenda</h2>
+
+                    <Card.Group itemsPerRow='8' style={{ justifyContent: 'center' }}>
+                        {this.state.garment.compatibleGarmentList ? this.renderCompatibleGarments() : <div />}
+                    </Card.Group>
+                </div>
+            )
+        } else
+            return <div />
     }
 
     renderCompatibleGarments() {
@@ -71,8 +128,12 @@ export default class GarmentDetail extends Component {
             return (
                 <Card style={{ marginTop: '0', cursor: 'pointer', margin: '20px' }} key={i.id} onClick={() => {
                     i.selected = !i.selected;
-                    this.setState({ garment: garment });
+                    let {quantity} = this.state;
+                    let subTotal = this.calculateTotal(quantity);
+                    garment.compatibleGarmentList.filter(c => c.selected).forEach(c =>{subTotal += c.price});                    
+                    this.setState({ garment: garment, total: subTotal });
                     this.checkSaveButton();
+                    
                 }}>
                     <div style={{ height: '120px', overflow: 'hidden' }}>
                         <Image
@@ -95,6 +156,7 @@ export default class GarmentDetail extends Component {
             )
         })
     }
+
     renderGarmentImages() {
         return this.state.garment.imagesList.map(i => {
             return (
@@ -113,47 +175,6 @@ export default class GarmentDetail extends Component {
                 />
             )
         })
-    }
-
-    renderPreviewImage() {
-        this.setState({
-            activeImage: localStorage.getItem('url') + 'utilities/getFile/' + this.state.garment.previewImage
-        })
-    }
-
-    checkSaveButton() {
-        let lista = this.state.garment.compatibleGarmentList;
-        let save = lista.filter(i => i.selected)
-        this.setState({
-            canSave: save.length > 0
-        })
-
-    }
-
-    setQuantity(evt) {
-        let { value } = evt.target;
-        if (value < 100) {
-            this.setState({
-                quantity: value
-            })
-        }
-    }
-
-    renderPersonalizeSection() {
-        if (this.state.garment &&
-            this.state.garment.compatibleGarmentList &&
-            this.state.garment.compatibleGarmentList.length > 0) {
-            return (
-                <div>
-                    <h2 style={{ textAlign: 'center' }}>Personaliza tu prenda</h2>
-
-                    <Card.Group itemsPerRow='8' style={{ justifyContent: 'center' }}>
-                        {this.state.garment.compatibleGarmentList ? this.renderCompatibleGarments() : <div />}
-                    </Card.Group>
-                </div>
-            )
-        } else
-            return <div />
     }
 
     render() {
@@ -177,19 +198,29 @@ export default class GarmentDetail extends Component {
                             <Segment>
                                 <h2>{this.state.garment.name}</h2>
                                 <h4>{this.state.garment.description}</h4>
-                                <Icon name='dollar' />
-                                {this.state.garment.price}
+                                <h3>Precio prenda: ${this.state.garment.price}</h3>
                             </Segment>
                             <Input
                                 label='Cantidad:'
                                 min='1'
+                                step='1'
                                 onChange={this.setQuantity}
                                 value={this.state.quantity}
                                 type='number' />
-                            <div style={{ margin: '10px', display: 'flex', bottom: 0, position: 'absolute' }}>
-                                <Button label='Agregar al carrito' icon='shop' />
+
+                            <div style={{ margin: '10px', textAlign: 'right' }}>
+                                <Header sub>Total</Header>
+                                <h3 style={{ color: 'green' }}>${this.state.total}</h3>
+                            </div>
+
+                            <div style={{ margin: '10px', display: 'flex', bottom: 0 }}>
+                                <Button label='Al carrito' icon='shop' onClick={() => {
+                                    let { garment, quantity } = this.state;
+                                    console.log(garment, quantity);
+                                }}
+                                />
                                 <Button
-                                    label='Guardar prenda'
+                                    label='Guardar'
                                     icon='save'
                                     disabled={!this.state.canSave}
                                     onClick={() => {

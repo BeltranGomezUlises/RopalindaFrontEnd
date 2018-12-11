@@ -16,7 +16,7 @@ import {
 import Login from '../Access/Login.jsx'
 import MySearch from './MySearch.jsx';
 import * as utils from '../../utils.js'
-
+import Carrito from '../Carrito/Carrito.jsx'
 
 export default class HomePageHeading extends Component {
   constructor(props) {
@@ -25,12 +25,15 @@ export default class HomePageHeading extends Component {
     this.state = {
       modalLoginVisible: false,
       activeItem: 'home',
-      categories: []
+      categories: [],
+      modalCarrito: false
     }
     this.hideFixedMenu = this.hideFixedMenu.bind(this);
     this.showFixedMenu = this.showFixedMenu.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.closeModalCarrito = this.closeModalCarrito.bind(this);
+    this.openModalCarrito = this.openModalCarrito.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -74,6 +77,14 @@ export default class HomePageHeading extends Component {
     this.setState({ modalLoginVisible: true })
   }
 
+  openModalCarrito(){
+    this.setState({modalCarrito: true});
+  }
+
+  closeModalCarrito(){
+    this.setState({modalCarrito: false});
+  }
+
   renderCategoryList() {
     return this.state.categories.map(i => {
       return (
@@ -83,9 +94,9 @@ export default class HomePageHeading extends Component {
           item simple
           text={i.name}
           icon={
-            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon} 
-              heigth='24px' width='24px' style={{padding:5}}          
-               />
+            <img src={localStorage.getItem('url') + 'utilities/getFile/' + i.icon}
+              heigth='24px' width='24px' style={{ padding: 5 }}
+            />
           }>
           <Dropdown.Menu>
             {this.renderSubCategoryList(i.subcategoryCollection)}
@@ -115,6 +126,7 @@ export default class HomePageHeading extends Component {
         name='shopping cart'
         size='large'
         style={{ position: 'absolute', right: '64px', cursor: 'pointer' }}
+        onClick={this.openModalCarrito}
       />)
     }
 
@@ -129,6 +141,8 @@ export default class HomePageHeading extends Component {
         style={{ position: 'absolute', right: '32px', cursor: 'pointer' }}
         onClick={() => {
           localStorage.removeItem('logedUser');
+          localStorage.removeItem('tokenSesion');
+          localStorage.removeItem('carrito');
           location.reload();
         }}
       />)
@@ -176,6 +190,17 @@ export default class HomePageHeading extends Component {
             <Header content='Iniciar Sesión' textAlign='center' />
             <Modal.Content >
               <Login close={this.closeModal} />
+            </Modal.Content>
+          </Modal>
+
+          <Modal
+            onClose={this.closeModalCarrito}
+            open={this.state.modalCarrito}
+            onOpen={this.openModalCarrito}                        
+          >
+            <Header content='Carrito de compras' textAlign='center' />
+            <Modal.Content >
+              <Carrito close={this.closeModalCarrito} />
             </Modal.Content>
           </Modal>
         </HeadingContainer>

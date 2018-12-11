@@ -25,6 +25,7 @@ export function evalResponse(response, callback, msg){
       notify.show('Inicie sesión por favor.','warning', 6000);
       localStorage.removeItem('logedUser');
       localStorage.removeItem('tokenSesion');
+      localStorage.removeItem('carrito');
       let ruta = window.location.href.split('#');
       window.location.href = ruta[0] + '#/home';
       break;
